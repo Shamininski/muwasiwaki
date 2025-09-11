@@ -1,0 +1,344 @@
+lib/
+├── main.dart
+├── app.dart
+├── core/
+│   ├── constants/
+│   │   ├── app_constants.dart
+│   │   ├── api_constants.dart
+│   │   ├── route_constants.dart
+│   │   └── string_constants.dart
+│   ├── config/
+│   │   ├── app_config.dart
+│   │   ├── database_config.dart
+│   │   └── notification_config.dart
+│   ├── errors/
+│   │   ├── exceptions.dart
+│   │   ├── failures.dart
+│   │   └── error_handler.dart
+│   ├── network/
+│   │   ├── api_client.dart
+│   │   ├── network_info.dart
+│   │   └── interceptors/
+│   │       ├── auth_interceptor.dart
+│   │       └── logging_interceptor.dart
+│   ├── utils/
+│   │   ├── date_utils.dart
+│   │   ├── validation_utils.dart
+│   │   ├── permission_utils.dart
+│   │   ├── file_utils.dart
+│   │   └── encryption_utils.dart
+│   └── services/
+│       ├── local_storage_service.dart
+│       ├── notification_service.dart
+│       ├── file_storage_service.dart
+│       └── location_service.dart
+│
+├── features/
+│   ├── authentication/
+│   │   ├── data/
+│   │   │   ├── datasources/
+│   │   │   │   ├── auth_local_datasource.dart
+│   │   │   │   └── auth_remote_datasource.dart
+│   │   │   ├── models/
+│   │   │   │   ├── user_model.dart
+│   │   │   │   ├── login_request_model.dart
+│   │   │   │   └── login_response_model.dart
+│   │   │   └── repositories/
+│   │   │       └── auth_repository_impl.dart
+│   │   ├── domain/
+│   │   │   ├── entities/
+│   │   │   │   └── user.dart
+│   │   │   ├── repositories/
+│   │   │   │   └── auth_repository.dart
+│   │   │   └── usecases/
+│   │   │       ├── login_usecase.dart
+│   │   │       ├── logout_usecase.dart
+│   │   │       ├── register_usecase.dart
+│   │   │       └── check_auth_status_usecase.dart
+│   │   └── presentation/
+│   │       ├── bloc/
+│   │       │   ├── auth_bloc.dart
+│   │       │   ├── auth_event.dart
+│   │       │   └── auth_state.dart
+│   │       ├── pages/
+│   │       │   ├── login_page.dart
+│   │       │   ├── register_page.dart
+│   │       │   └── splash_page.dart
+│   │       └── widgets/
+│   │           ├── login_form.dart
+│   │           ├── register_form.dart
+│   │           └── auth_button.dart
+│   │
+│   ├── news/
+│   │   ├── data/
+│   │   │   ├── datasources/
+│   │   │   │   ├── news_local_datasource.dart
+│   │   │   │   └── news_remote_datasource.dart
+│   │   │   ├── models/
+│   │   │   │   ├── news_article_model.dart
+│   │   │   │   ├── news_category_model.dart
+│   │   │   │   └── news_create_request_model.dart
+│   │   │   └── repositories/
+│   │   │       └── news_repository_impl.dart
+│   │   ├── domain/
+│   │   │   ├── entities/
+│   │   │   │   ├── news_article.dart
+│   │   │   │   └── news_category.dart
+│   │   │   ├── repositories/
+│   │   │   │   └── news_repository.dart
+│   │   │   └── usecases/
+│   │   │       ├── get_news_articles_usecase.dart
+│   │   │       ├── create_news_article_usecase.dart
+│   │   │       ├── update_news_article_usecase.dart
+│   │   │       ├── delete_news_article_usecase.dart
+│   │   │       └── get_news_by_category_usecase.dart
+│   │   └── presentation/
+│   │       ├── bloc/
+│   │       │   ├── news_bloc.dart
+│   │       │   ├── news_event.dart
+│   │       │   ├── news_state.dart
+│   │       │   ├── news_create_bloc.dart
+│   │       │   ├── news_create_event.dart
+│   │       │   └── news_create_state.dart
+│   │       ├── pages/
+│   │       │   ├── news_list_page.dart
+│   │       │   ├── news_detail_page.dart
+│   │       │   ├── news_create_page.dart
+│   │       │   └── news_edit_page.dart
+│   │       └── widgets/
+│   │           ├── news_card.dart
+│   │           ├── news_form.dart
+│   │           ├── news_category_chip.dart
+│   │           └── news_search_bar.dart
+│   │
+│   ├── membership/
+│   │   ├── data/
+│   │   │   ├── datasources/
+│   │   │   │   ├── membership_local_datasource.dart
+│   │   │   │   └── membership_remote_datasource.dart
+│   │   │   ├── models/
+│   │   │   │   ├── member_model.dart
+│   │   │   │   ├── membership_application_model.dart
+│   │   │   │   ├── membership_status_model.dart
+│   │   │   │   └── approval_action_model.dart
+│   │   │   └── repositories/
+│   │   │       └── membership_repository_impl.dart
+│   │   ├── domain/
+│   │   │   ├── entities/
+│   │   │   │   ├── member.dart
+│   │   │   │   ├── membership_application.dart
+│   │   │   │   ├── membership_status.dart
+│   │   │   │   └── approval_action.dart
+│   │   │   ├── repositories/
+│   │   │   │   └── membership_repository.dart
+│   │   │   └── usecases/
+│   │   │       ├── apply_for_membership_usecase.dart
+│   │   │       ├── get_membership_status_usecase.dart
+│   │   │       ├── get_pending_applications_usecase.dart
+│   │   │       ├── approve_membership_usecase.dart
+│   │   │       ├── reject_membership_usecase.dart
+│   │   │       └── get_all_members_usecase.dart
+│   │   └── presentation/
+│   │       ├── bloc/
+│   │       │   ├── membership_bloc.dart
+│   │       │   ├── membership_event.dart
+│   │       │   ├── membership_state.dart
+│   │       │   ├── membership_approval_bloc.dart
+│   │       │   ├── membership_approval_event.dart
+│   │       │   └── membership_approval_state.dart
+│   │       ├── pages/
+│   │       │   ├── membership_application_page.dart
+│   │       │   ├── membership_status_page.dart
+│   │       │   ├── pending_applications_page.dart
+│   │       │   ├── members_list_page.dart
+│   │       │   └── member_details_page.dart
+│   │       └── widgets/
+│   │           ├── membership_form.dart
+│   │           ├── membership_status_card.dart
+│   │           ├── application_card.dart
+│   │           ├── approval_buttons.dart
+│   │           └── member_card.dart
+│   │
+│   ├── profile/
+│   │   ├── data/
+│   │   │   ├── datasources/
+│   │   │   │   ├── profile_local_datasource.dart
+│   │   │   │   └── profile_remote_datasource.dart
+│   │   │   ├── models/
+│   │   │   │   ├── user_profile_model.dart
+│   │   │   │   └── profile_update_model.dart
+│   │   │   └── repositories/
+│   │   │       └── profile_repository_impl.dart
+│   │   ├── domain/
+│   │   │   ├── entities/
+│   │   │   │   └── user_profile.dart
+│   │   │   ├── repositories/
+│   │   │   │   └── profile_repository.dart
+│   │   │   └── usecases/
+│   │   │       ├── get_user_profile_usecase.dart
+│   │   │       ├── update_user_profile_usecase.dart
+│   │   │       └── upload_profile_image_usecase.dart
+│   │   └── presentation/
+│   │       ├── bloc/
+│   │       │   ├── profile_bloc.dart
+│   │       │   ├── profile_event.dart
+│   │       │   └── profile_state.dart
+│   │       ├── pages/
+│   │       │   ├── profile_page.dart
+│   │       │   └── edit_profile_page.dart
+│   │       └── widgets/
+│   │           ├── profile_info_card.dart
+│   │           ├── profile_image_picker.dart
+│   │           └── profile_edit_form.dart
+│   │
+│   └── roles/
+│       ├── data/
+│       │   ├── datasources/
+│       │   │   ├── roles_local_datasource.dart
+│       │   │   └── roles_remote_datasource.dart
+│       │   ├── models/
+│       │   │   ├── user_role_model.dart
+│       │   │   ├── permission_model.dart
+│       │   │   └── role_assignment_model.dart
+│       │   └── repositories/
+│       │       └── roles_repository_impl.dart
+│       ├── domain/
+│       │   ├── entities/
+│       │   │   ├── user_role.dart
+│       │   │   ├── permission.dart
+│       │   │   └── role_assignment.dart
+│       │   ├── repositories/
+│       │   │   └── roles_repository.dart
+│       │   └── usecases/
+│       │       ├── get_user_roles_usecase.dart
+│       │       ├── check_permission_usecase.dart
+│       │       ├── assign_role_usecase.dart
+│       │       └── revoke_role_usecase.dart
+│       └── presentation/
+│           ├── bloc/
+│           │   ├── roles_bloc.dart
+│           │   ├── roles_event.dart
+│           │   └── roles_state.dart
+│           ├── pages/
+│           │   ├── roles_management_page.dart
+│           │   └── role_assignment_page.dart
+│           └── widgets/
+│               ├── role_card.dart
+│               ├── permission_chip.dart
+│               └── role_assignment_form.dart
+│
+├── shared/
+│   ├── enums/
+│   │   ├── user_role_enum.dart
+│   │   ├── membership_status_enum.dart
+│   │   ├── news_category_enum.dart
+│   │   └── permission_enum.dart
+│   ├── extensions/
+│   │   ├── string_extensions.dart
+│   │   ├── datetime_extensions.dart
+│   │   └── context_extensions.dart
+│   ├── widgets/
+│   │   ├── custom_app_bar.dart
+│   │   ├── custom_button.dart
+│   │   ├── custom_text_field.dart
+│   │   ├── custom_card.dart
+│   │   ├── loading_widget.dart
+│   │   ├── error_widget.dart
+│   │   ├── empty_state_widget.dart
+│   │   ├── custom_bottom_navigation.dart
+│   │   ├── permission_wrapper.dart
+│   │   └── role_based_widget.dart
+│   ├── theme/
+│   │   ├── app_theme.dart
+│   │   ├── app_colors.dart
+│   │   ├── app_text_styles.dart
+│   │   └── app_dimensions.dart
+│   └── models/
+│       ├── api_response.dart
+│       ├── paginated_response.dart
+│       └── base_model.dart
+│
+├── routes/
+│   ├── app_routes.dart
+│   ├── route_generator.dart
+│   └── route_middleware.dart
+│
+└── dependency_injection/
+    ├── injection_container.dart
+    ├── core_module.dart
+    ├── auth_module.dart
+    ├── news_module.dart
+    ├── membership_module.dart
+    ├── profile_module.dart
+    └── roles_module.dart
+
+assets/
+├── images/
+│   ├── logo/
+│   │   ├── app_logo.png
+│   │   └── organization_logo.png
+│   ├── icons/
+│   │   ├── news_icon.png
+│   │   ├── membership_icon.png
+│   │   └── profile_icon.png
+│   └── illustrations/
+│       ├── empty_news.png
+│       ├── pending_approval.png
+│       └── welcome_illustration.png
+├── fonts/
+│   └── custom_fonts/
+└── data/
+    └── sample_data.json
+
+android/
+├── app/
+│   ├── src/
+│   │   └── main/
+│   │       ├── AndroidManifest.xml
+│   │       ├── kotlin/
+│   │       └── res/
+│   └── build.gradle
+├── build.gradle
+└── gradle.properties
+
+ios/
+├── Runner/
+│   ├── Info.plist
+│   ├── AppDelegate.swift
+│   └── Runner.xcodeproj/
+└── Podfile
+
+test/
+├── unit_tests/
+│   ├── core/
+│   ├── features/
+│   │   ├── authentication/
+│   │   ├── news/
+│   │   ├── membership/
+│   │   ├── profile/
+│   │   └── roles/
+│   └── shared/
+├── widget_tests/
+│   ├── authentication/
+│   ├── news/
+│   ├── membership/
+│   ├── profile/
+│   └── roles/
+├── integration_tests/
+│   ├── app_test.dart
+│   ├── auth_flow_test.dart
+│   ├── news_flow_test.dart
+│   └── membership_flow_test.dart
+└── test_helpers/
+    ├── mock_data.dart
+    ├── test_utils.dart
+    └── widget_test_helpers.dart
+
+pubspec.yaml
+pubspec.lock
+README.md
+CHANGELOG.md
+analysis_options.yaml
+.gitignore
+.env
+.env.example
