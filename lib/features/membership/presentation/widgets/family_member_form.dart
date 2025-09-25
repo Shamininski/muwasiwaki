@@ -4,17 +4,17 @@ import 'package:intl/intl.dart';
 import '../../domain/entities/family_member.dart';
 
 class FamilyMemberForm extends StatefulWidget {
-  final Function(FamilyMember) onSave;
 
   const FamilyMemberForm({super.key, required this.onSave});
+  final Function(FamilyMember) onSave;
 
   @override
   State<FamilyMemberForm> createState() => _FamilyMemberFormState();
 }
 
 class _FamilyMemberFormState extends State<FamilyMemberForm> {
-  final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
   String _relationship = 'wife';
   DateTime _dateOfBirth =
       DateTime.now().subtract(const Duration(days: 365 * 25));
@@ -27,29 +27,29 @@ class _FamilyMemberFormState extends State<FamilyMemberForm> {
         key: _formKey,
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: [
+          children: <Widget>[
             TextFormField(
               controller: _nameController,
               decoration: const InputDecoration(
                 labelText: 'Name *',
                 border: OutlineInputBorder(),
               ),
-              validator: (value) =>
+              validator: (String? value) =>
                   value?.isEmpty == true ? 'Name is required' : null,
             ),
             const SizedBox(height: 16),
             DropdownButtonFormField<String>(
-              value: _relationship,
+              initialValue: _relationship,
               decoration: const InputDecoration(
                 labelText: 'Relationship *',
                 border: OutlineInputBorder(),
               ),
-              items: const [
+              items: const <DropdownMenuItem<String>>[
                 DropdownMenuItem(value: 'wife', child: Text('Wife')),
                 DropdownMenuItem(value: 'husband', child: Text('Husband')),
                 DropdownMenuItem(value: 'child', child: Text('Child')),
               ],
-              onChanged: (value) => setState(() => _relationship = value!),
+              onChanged: (String? value) => setState(() => _relationship = value!),
             ),
             const SizedBox(height: 16),
             InkWell(
@@ -62,7 +62,7 @@ class _FamilyMemberFormState extends State<FamilyMemberForm> {
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: <Widget>[
                     Text(
                         'Born: ${DateFormat('MMM dd, yyyy').format(_dateOfBirth)}'),
                     const Icon(Icons.calendar_today),
@@ -73,7 +73,7 @@ class _FamilyMemberFormState extends State<FamilyMemberForm> {
           ],
         ),
       ),
-      actions: [
+      actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.pop(context),
           child: const Text('Cancel'),
@@ -87,7 +87,7 @@ class _FamilyMemberFormState extends State<FamilyMemberForm> {
   }
 
   void _selectDateOfBirth() async {
-    final date = await showDatePicker(
+    final DateTime? date = await showDatePicker(
       context: context,
       initialDate: _dateOfBirth,
       firstDate: DateTime(1920),

@@ -6,9 +6,9 @@ import '../entities/user.dart';
 import '../repositories/auth_repository.dart';
 
 class LoginUseCase implements UseCase<AppUser, LoginParams> {
-  final AuthRepository repository;
 
   LoginUseCase(this.repository);
+  final AuthRepository repository;
 
   @override
   Future<Either<Failure, AppUser>> call(LoginParams params) async {
@@ -21,8 +21,8 @@ class LoginUseCase implements UseCase<AppUser, LoginParams> {
 }
 
 class LoginParams {
-  final String email;
-  final String password;
 
   LoginParams({required this.email, required this.password});
+  final String email;
+  final String password;
 }

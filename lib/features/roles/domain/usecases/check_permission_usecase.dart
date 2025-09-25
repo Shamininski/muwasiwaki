@@ -5,9 +5,9 @@ import '../../../../core/usecases/usecase.dart';
 import '../repositories/roles_repository.dart';
 
 class CheckPermissionUseCase implements UseCase<bool, CheckPermissionParams> {
-  final RolesRepository repository;
 
   CheckPermissionUseCase(this.repository);
+  final RolesRepository repository;
 
   @override
   Future<Either<Failure, bool>> call(CheckPermissionParams params) async {
@@ -16,8 +16,8 @@ class CheckPermissionUseCase implements UseCase<bool, CheckPermissionParams> {
 }
 
 class CheckPermissionParams {
-  final String userId;
-  final String permission;
 
   CheckPermissionParams({required this.userId, required this.permission});
+  final String userId;
+  final String permission;
 }

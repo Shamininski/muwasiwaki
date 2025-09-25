@@ -1,0 +1,212 @@
+muwasiwaki/
+├── android/
+│   ├── app/
+│   │   ├── src/main/
+│   │   │   ├── AndroidManifest.xml
+│   │   │   └── kotlin/com/muwasiwaki/app/MainActivity.kt
+│   │   ├── build.gradle
+│   │   ├── google-services.json          # Firebase config
+│   │   └── key.properties               # Signing config
+│   ├── build.gradle
+│   └── gradle.properties
+├── ios/
+│   ├── Runner/
+│   │   ├── Info.plist
+│   │   ├── AppDelegate.swift
+│   │   └── GoogleService-Info.plist     # Firebase config
+│   └── Podfile
+├── lib/
+│   ├── main.dart                        # App entry point
+│   ├── app.dart                         # Main app widget
+│   │
+│   ├── core/                           # Core functionality
+│   │   ├── constants/
+│   │   │   └── app_constants.dart       # App-wide constants
+│   │   ├── config/
+│   │   │   └── app_config.dart          # Configuration settings
+│   │   ├── error/
+│   │   │   └── failures.dart            # Error handling
+│   │   ├── injection/
+│   │   │   └── injection_container.dart # Dependency injection
+│   │   ├── services/
+│   │   │   └── local_storage_service.dart # Local data storage
+│   │   ├── theme/
+│   │   │   ├── app_colors.dart          # Color scheme
+│   │   │   └── app_theme.dart           # Material theme
+│   │   ├── usecases/
+│   │   │   └── usecase.dart             # Base use case classes
+│   │   └── utils/
+│   │       ├── date_utils.dart          # Date formatting
+│   │       └── validation_utils.dart    # Form validation
+│   │
+│   ├── features/                       # Feature modules
+│   │   ├── auth/                       # Authentication
+│   │   │   ├── data/
+│   │   │   │   ├── datasources/
+│   │   │   │   │   └── auth_remote_datasource.dart
+│   │   │   │   ├── models/
+│   │   │   │   │   └── user_model.dart
+│   │   │   │   └── repositories/
+│   │   │   │       └── auth_repository_impl.dart
+│   │   │   ├── domain/
+│   │   │   │   ├── entities/
+│   │   │   │   │   └── user.dart
+│   │   │   │   ├── repositories/
+│   │   │   │   │   └── auth_repository.dart
+│   │   │   │   └── usecases/
+│   │   │   │       ├── login_usecase.dart
+│   │   │   │       ├── register_usecase.dart
+│   │   │   │       └── logout_usecase.dart
+│   │   │   └── presentation/
+│   │   │       ├── bloc/
+│   │   │       │   └── auth_bloc.dart
+│   │   │       └── pages/
+│   │   │           ├── login_page.dart
+│   │   │           └── register_page.dart
+│   │   │
+│   │   ├── news/                       # News management
+│   │   │   ├── data/
+│   │   │   │   ├── datasources/
+│   │   │   │   │   └── news_remote_datasource.dart
+│   │   │   │   ├── models/
+│   │   │   │   │   └── news_article_model.dart
+│   │   │   │   └── repositories/
+│   │   │   │       └── news_repository_impl.dart
+│   │   │   ├── domain/
+│   │   │   │   ├── entities/
+│   │   │   │   │   └── news_article.dart
+│   │   │   │   ├── repositories/
+│   │   │   │   │   └── news_repository.dart
+│   │   │   │   └── usecases/
+│   │   │   │       ├── get_news_usecase.dart
+│   │   │   │       └── create_news_usecase.dart
+│   │   │   └── presentation/
+│   │   │       ├── bloc/
+│   │   │       │   └── news_bloc.dart
+│   │   │       └── pages/
+│   │   │           ├── news_feed_page.dart
+│   │   │           └── create_news_page.dart
+│   │   │
+│   │   ├── membership/                 # Membership system
+│   │   │   ├── data/
+│   │   │   │   ├── datasources/
+│   │   │   │   │   └── membership_remote_datasource.dart
+│   │   │   │   ├── models/
+│   │   │   │   │   ├── membership_application_model.dart
+│   │   │   │   │   └── family_member_model.dart
+│   │   │   │   └── repositories/
+│   │   │   │       └── membership_repository_impl.dart
+│   │   │   ├── domain/
+│   │   │   │   ├── entities/
+│   │   │   │   │   ├── membership_application.dart
+│   │   │   │   │   └── family_member.dart
+│   │   │   │   ├── repositories/
+│   │   │   │   │   └── membership_repository.dart
+│   │   │   │   └── usecases/
+│   │   │   │       ├── apply_membership_usecase.dart
+│   │   │   │       ├── approve_membership_usecase.dart
+│   │   │   │       └── get_applications_usecase.dart
+│   │   │   └── presentation/
+│   │   │       ├── bloc/
+│   │   │       │   └── membership_bloc.dart
+│   │   │       ├── pages/
+│   │   │       │   ├── membership_application_page.dart
+│   │   │       │   └── pending_applications_page.dart
+│   │   │       └── widgets/
+│   │   │           └── family_member_form.dart
+│   │   │
+│   │   ├── profile/                    # User profile
+│   │   │   ├── data/
+│   │   │   │   ├── datasources/
+│   │   │   │   │   └── profile_remote_datasource.dart
+│   │   │   │   ├── models/
+│   │   │   │   │   └── user_profile_model.dart
+│   │   │   │   └── repositories/
+│   │   │   │       └── profile_repository_impl.dart
+│   │   │   ├── domain/
+│   │   │   │   ├── entities/
+│   │   │   │   │   └── user_profile.dart
+│   │   │   │   ├── repositories/
+│   │   │   │   │   └── profile_repository.dart
+│   │   │   │   └── usecases/
+│   │   │   │       ├── get_user_profile_usecase.dart
+│   │   │   │       ├── update_user_profile_usecase.dart
+│   │   │   │       └── upload_profile_image_usecase.dart
+│   │   │   └── presentation/
+│   │   │       ├── bloc/
+│   │   │       │   └── profile_bloc.dart
+│   │   │       └── pages/
+│   │   │           └── profile_page.dart
+│   │   │
+│   │   └── roles/                      # Role management
+│   │       ├── data/
+│   │       │   ├── datasources/
+│   │       │   │   └── roles_remote_datasource.dart
+│   │       │   ├── models/
+│   │       │   │   ├── user_role_model.dart
+│   │       │   │   ├── permission_model.dart
+│   │       │   │   └── role_assignment_model.dart
+│   │       │   └── repositories/
+│   │       │       └── roles_repository_impl.dart
+│   │       ├── domain/
+│   │       │   ├── entities/
+│   │       │   │   ├── user_role.dart
+│   │       │   │   ├── permission.dart
+│   │       │   │   └── role_assignment.dart
+│   │       │   ├── repositories/
+│   │       │   │   └── roles_repository.dart
+│   │       │   └── usecases/
+│   │       │       ├── get_user_roles_usecase.dart
+│   │       │       ├── check_permission_usecase.dart
+│   │       │       ├── assign_role_usecase.dart
+│   │       │       └── revoke_role_usecase.dart
+│   │       └── presentation/
+│   │           └── bloc/
+│   │               └── roles_bloc.dart
+│   │
+│   ├── routes/                         # Navigation
+│   │   └── app_router.dart             # GoRouter configuration
+│   │
+│   └── shared/                         # Shared components
+│       ├── enums/
+│       │   ├── user_role.dart          # User role definitions
+│       │   ├── membership_status_enum.dart
+│       │   ├── news_category_enum.dart
+│       │   └── permission_enum.dart
+│       ├── extensions/
+│       │   ├── string_extensions.dart   # String utilities
+│       │   ├── datetime_extensions.dart # Date utilities
+│       │   └── context_extensions.dart  # Context helpers
+│       ├── models/
+│       │   ├── api_response.dart        # API response wrapper
+│       │   ├── paginated_response.dart  # Pagination support
+│       │   └── base_model.dart          # Base model class
+│       └── widgets/
+│           ├── main_navigation.dart     # Bottom navigation
+│           ├── custom_app_bar.dart      # Reusable app bar
+│           ├── custom_button.dart       # Custom button widget
+│           ├── custom_text_field.dart   # Form input widget
+│           ├── custom_card.dart         # Card wrapper
+│           ├── loading_widget.dart      # Loading indicator
+│           ├── error_widget.dart        # Error display
+│           ├── empty_state_widget.dart  # Empty state
+│           ├── role_based_widget.dart   # Role-based visibility
+│           └── permission_wrapper.dart  # Permission checking
+│
+├── assets/                             # Static assets
+│   ├── images/
+│   │   ├── logo/
+│   │   └── icons/
+│   └── fonts/
+│
+├── test/                              # Test files
+│   ├── unit_tests/
+│   ├── widget_tests/
+│   └── integration_tests/
+│
+├── pubspec.yaml                       # Dependencies
+├── pubspec.lock                       # Dependency lock file
+├── analysis_options.yaml             # Linting rules
+├── README.md                          # Documentation
+├── CHANGELOG.md                       # Version history
+└── .gitignore                        # Git ignore rules

@@ -1,15 +1,6 @@
 import 'package:equatable/equatable.dart';
 
 class NewsArticle extends Equatable {
-  final String id;
-  final String title;
-  final String content;
-  final String category;
-  final String authorId;
-  final String authorName;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  final bool isPublished;
 
   const NewsArticle({
     required this.id,
@@ -22,9 +13,18 @@ class NewsArticle extends Equatable {
     required this.updatedAt,
     required this.isPublished,
   });
+  final String id;
+  final String title;
+  final String content;
+  final String category;
+  final String authorId;
+  final String authorName;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final bool isPublished;
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props => <Object?>[
     id,
     title,
     content,

@@ -91,7 +91,7 @@ class AppTheme {
       ),
 
       // Card Theme
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: AppColors.cardBackground,
         elevation: 2,
         shape: RoundedRectangleBorder(
@@ -126,7 +126,6 @@ class AppTheme {
           ),
           side: const BorderSide(
             color: AppColors.primary,
-            width: 1,
           ),
           textStyle: GoogleFonts.poppins(
             fontSize: 16,
@@ -154,14 +153,12 @@ class AppTheme {
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(
             color: AppColors.border,
-            width: 1,
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(
             color: AppColors.border,
-            width: 1,
           ),
         ),
         focusedBorder: OutlineInputBorder(
@@ -175,7 +172,6 @@ class AppTheme {
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(
             color: AppColors.error,
-            width: 1,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(

@@ -2,25 +2,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:muwasiwaki/shared/enums/user_role.dart';
 import '../../features/auth/presentation/bloc/auth_bloc.dart';
 
 class MainNavigation extends StatelessWidget {
-  final Widget child;
-
   const MainNavigation({super.key, required this.child});
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: child,
       bottomNavigationBar: BlocBuilder<AuthBloc, AuthState>(
-        builder: (context, state) {
+        builder: (BuildContext context, AuthState state) {
           if (state is! AuthAuthenticated) return const SizedBox();
 
           final canManageMembers = state.user.role.canApproveMembers;
-          final currentLocation = GoRouterState.of(context).uri.toString();
+          final String currentLocation =
+              GoRouterState.of(context).uri.toString();
 
-          int selectedIndex = 0;
+          var selectedIndex = 0;
           if (currentLocation.contains('/pending-applications')) {
             selectedIndex = 1;
           } else if (currentLocation.contains('/profile')) {
@@ -32,7 +33,7 @@ class MainNavigation extends StatelessWidget {
             selectedItemColor: const Color(0xFF667EEA),
             unselectedItemColor: Colors.grey,
             currentIndex: selectedIndex,
-            items: [
+            items: <BottomNavigationBarItem>[
               const BottomNavigationBarItem(
                 icon: Icon(Icons.newspaper),
                 label: 'News',
@@ -47,7 +48,7 @@ class MainNavigation extends StatelessWidget {
                 label: 'Profile',
               ),
             ],
-            onTap: (index) {
+            onTap: (int index) {
               switch (index) {
                 case 0:
                   context.go('/home');

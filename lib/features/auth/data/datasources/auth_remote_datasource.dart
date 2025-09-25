@@ -12,20 +12,20 @@ abstract class AuthRemoteDataSource {
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  final FirebaseAuth firebaseAuth;
-  final FirebaseFirestore firestore;
 
   AuthRemoteDataSourceImpl(this.firebaseAuth, this.firestore);
+  final FirebaseAuth firebaseAuth;
+  final FirebaseFirestore firestore;
 
   @override
   Future<UserModel> login(String email, String password) async {
     try {
-      final credential = await firebaseAuth.signInWithEmailAndPassword(
+      final UserCredential credential = await firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      final userDoc = await firestore
+      final DocumentSnapshot<Map<String, dynamic>> userDoc = await firestore
           .collection('users')
           .doc(credential.user!.uid)
           .get();
@@ -43,12 +43,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<UserModel> register(String email, String password, String name) async {
     try {
-      final credential = await firebaseAuth.createUserWithEmailAndPassword(
+      final UserCredential credential = await firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      final userModel = UserModel(
+      final UserModel userModel = UserModel(
         id: credential.user!.uid,
         email: email,
         name: name,
@@ -74,10 +74,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<UserModel?> getCurrentUser() async {
-    final currentUser = firebaseAuth.currentUser;
+    final User? currentUser = firebaseAuth.currentUser;
     if (currentUser == null) return null;
 
-    final userDoc = await firestore
+    final DocumentSnapshot<Map<String, dynamic>> userDoc = await firestore
         .collection('users')
         .doc(currentUser.uid)
         .get();

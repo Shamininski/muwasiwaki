@@ -30,14 +30,14 @@ class AppDateUtils {
   }
 
   static String getRelativeTime(DateTime date) {
-    final now = DateTime.now();
-    final difference = now.difference(date);
+    final DateTime now = DateTime.now();
+    final Duration difference = now.difference(date);
 
     if (difference.inDays > 365) {
-      final years = (difference.inDays / 365).floor();
+      final int years = (difference.inDays / 365).floor();
       return '${years}y ago';
     } else if (difference.inDays > 30) {
-      final months = (difference.inDays / 30).floor();
+      final int months = (difference.inDays / 30).floor();
       return '${months}mo ago';
     } else if (difference.inDays > 0) {
       return '${difference.inDays}d ago';
@@ -61,13 +61,13 @@ class AppDateUtils {
   }
 
   static bool isYesterday(DateTime date) {
-    final yesterday = DateTime.now().subtract(const Duration(days: 1));
+    final DateTime yesterday = DateTime.now().subtract(const Duration(days: 1));
     return isSameDay(date, yesterday);
   }
 
   static int calculateAge(DateTime birthDate) {
-    final now = DateTime.now();
-    int age = now.year - birthDate.year;
+    final DateTime now = DateTime.now();
+    var age = now.year - birthDate.year;
     if (now.month < birthDate.month ||
         (now.month == birthDate.month && now.day < birthDate.day)) {
       age--;

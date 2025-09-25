@@ -1,6 +1,8 @@
 // lib/features/roles/presentation/bloc/roles_bloc.dart
+import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:muwasiwaki/core/error/failures.dart';
 import '../../domain/entities/user_role.dart';
 import '../../domain/entities/permission.dart';
 import '../../domain/entities/role_assignment.dart';
@@ -12,50 +14,50 @@ import '../../domain/usecases/revoke_role_usecase.dart';
 // Events
 abstract class RolesEvent extends Equatable {
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => <Object?>[];
 }
 
 class LoadRolesEvent extends RolesEvent {}
 
 class CheckPermissionEvent extends RolesEvent {
+
+  CheckPermissionEvent({required this.userId, required this.permission});
   final String userId;
   final String permission;
 
-  CheckPermissionEvent({required this.userId, required this.permission});
-
   @override
-  List<Object?> get props => [userId, permission];
+  List<Object?> get props => <Object?>[userId, permission];
 }
 
 class AssignRoleEvent extends RolesEvent {
-  final String userId;
-  final String roleId;
-  final DateTime? expiresAt;
 
   AssignRoleEvent({
     required this.userId,
     required this.roleId,
     this.expiresAt,
   });
+  final String userId;
+  final String roleId;
+  final DateTime? expiresAt;
 
   @override
-  List<Object?> get props => [userId, roleId, expiresAt];
+  List<Object?> get props => <Object?>[userId, roleId, expiresAt];
 }
 
 class RevokeRoleEvent extends RolesEvent {
+
+  RevokeRoleEvent({required this.userId, required this.roleId});
   final String userId;
   final String roleId;
 
-  RevokeRoleEvent({required this.userId, required this.roleId});
-
   @override
-  List<Object?> get props => [userId, roleId];
+  List<Object?> get props => <Object?>[userId, roleId];
 }
 
 // States
 abstract class RolesState extends Equatable {
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => <Object?>[];
 }
 
 class RolesInitial extends RolesState {}
@@ -63,21 +65,21 @@ class RolesInitial extends RolesState {}
 class RolesLoading extends RolesState {}
 
 class RolesLoaded extends RolesState {
-  final List<UserRoleEntity> roles;
 
   RolesLoaded({required this.roles});
+  final List<UserRoleEntity> roles;
 
   @override
-  List<Object?> get props => [roles];
+  List<Object?> get props => <Object?>[roles];
 }
 
 class PermissionChecked extends RolesState {
-  final bool hasPermission;
 
   PermissionChecked({required this.hasPermission});
+  final bool hasPermission;
 
   @override
-  List<Object?> get props => [hasPermission];
+  List<Object?> get props => <Object?>[hasPermission];
 }
 
 class RoleAssigned extends RolesState {}
@@ -85,20 +87,16 @@ class RoleAssigned extends RolesState {}
 class RoleRevoked extends RolesState {}
 
 class RolesError extends RolesState {
-  final String message;
 
   RolesError({required this.message});
+  final String message;
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => <Object?>[message];
 }
 
 // Bloc
 class RolesBloc extends Bloc<RolesEvent, RolesState> {
-  final GetUserRolesUseCase getUserRolesUseCase;
-  final CheckPermissionUseCase checkPermissionUseCase;
-  final AssignRoleUseCase assignRoleUseCase;
-  final RevokeRoleUseCase revokeRoleUseCase;
 
   RolesBloc({
     required this.getUserRolesUseCase,
@@ -111,6 +109,10 @@ class RolesBloc extends Bloc<RolesEvent, RolesState> {
     on<AssignRoleEvent>(_onAssignRole);
     on<RevokeRoleEvent>(_onRevokeRole);
   }
+  final GetUserRolesUseCase getUserRolesUseCase;
+  final CheckPermissionUseCase checkPermissionUseCase;
+  final AssignRoleUseCase assignRoleUseCase;
+  final RevokeRoleUseCase revokeRoleUseCase;
 
   void _onLoadRoles(LoadRolesEvent event, Emitter<RolesState> emit) async {
     emit(RolesLoading());
@@ -123,35 +125,35 @@ class RolesBloc extends Bloc<RolesEvent, RolesState> {
 
   void _onCheckPermission(
       CheckPermissionEvent event, Emitter<RolesState> emit) async {
-    final result = await checkPermissionUseCase(CheckPermissionParams(
+    final Either<Failure, bool> result = await checkPermissionUseCase(CheckPermissionParams(
       userId: event.userId,
       permission: event.permission,
     ));
     result.fold(
-      (failure) => emit(RolesError(message: failure.message)),
-      (hasPermission) => emit(PermissionChecked(hasPermission: hasPermission)),
+      (Failure failure) => emit(RolesError(message: failure.message)),
+      (bool hasPermission) => emit(PermissionChecked(hasPermission: hasPermission)),
     );
   }
 
   void _onAssignRole(AssignRoleEvent event, Emitter<RolesState> emit) async {
-    final result = await assignRoleUseCase(AssignRoleParams(
+    final Either<Failure, void> result = await assignRoleUseCase(AssignRoleParams(
       userId: event.userId,
       roleId: event.roleId,
       expiresAt: event.expiresAt,
     ));
     result.fold(
-      (failure) => emit(RolesError(message: failure.message)),
+      (Failure failure) => emit(RolesError(message: failure.message)),
       (_) => emit(RoleAssigned()),
     );
   }
 
   void _onRevokeRole(RevokeRoleEvent event, Emitter<RolesState> emit) async {
-    final result = await revokeRoleUseCase(RevokeRoleParams(
+    final Either<Failure, void> result = await revokeRoleUseCase(RevokeRoleParams(
       userId: event.userId,
       roleId: event.roleId,
     ));
     result.fold(
-      (failure) => emit(RolesError(message: failure.message)),
+      (Failure failure) => emit(RolesError(message: failure.message)),
       (_) => emit(RoleRevoked()),
     );
   }

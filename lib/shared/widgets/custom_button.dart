@@ -5,15 +5,6 @@ enum ButtonType { elevated, outlined, text }
 enum ButtonSize { small, medium, large }
 
 class CustomButton extends StatelessWidget {
-  final String text;
-  final VoidCallback? onPressed;
-  final ButtonType type;
-  final ButtonSize size;
-  final IconData? icon;
-  final Color? color;
-  final Color? textColor;
-  final bool isLoading;
-  final bool isFullWidth;
 
   const CustomButton({
     super.key,
@@ -27,10 +18,19 @@ class CustomButton extends StatelessWidget {
     this.isLoading = false,
     this.isFullWidth = false,
   });
+  final String text;
+  final VoidCallback? onPressed;
+  final ButtonType type;
+  final ButtonSize size;
+  final IconData? icon;
+  final Color? color;
+  final Color? textColor;
+  final bool isLoading;
+  final bool isFullWidth;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final ThemeData theme = Theme.of(context);
 
     EdgeInsets padding;
     double fontSize;
@@ -50,7 +50,7 @@ class CustomButton extends StatelessWidget {
         break;
     }
 
-    Widget buttonChild = isLoading
+    final Widget buttonChild = isLoading
         ? SizedBox(
             width: 20,
             height: 20,
@@ -63,8 +63,8 @@ class CustomButton extends StatelessWidget {
           )
         : Row(
             mainAxisSize: MainAxisSize.min,
-            children: [
-              if (icon != null) ...[
+            children: <Widget>[
+              if (icon != null) ...<Widget>[
                 Icon(icon),
                 const SizedBox(width: 8),
               ],

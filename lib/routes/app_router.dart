@@ -15,10 +15,10 @@ import '../shared/widgets/main_navigation.dart';
 class AppRouter {
   static final GoRouter router = GoRouter(
     initialLocation: '/login',
-    redirect: (context, state) {
-      final authState = context.read<AuthBloc>().state;
-      final isLoggedIn = authState is AuthAuthenticated;
-      final isLoggingIn = state.matchedLocation == '/login' ||
+    redirect: (BuildContext context, GoRouterState state) {
+      final AuthState authState = context.read<AuthBloc>().state;
+      final bool isLoggedIn = authState is AuthAuthenticated;
+      final bool isLoggingIn = state.matchedLocation == '/login' ||
           state.matchedLocation == '/register' ||
           state.matchedLocation == '/apply-membership';
 
@@ -26,33 +26,33 @@ class AppRouter {
       if (isLoggedIn && isLoggingIn) return '/home';
       return null;
     },
-    routes: [
+    routes: <RouteBase>[
       GoRoute(
         path: '/register',
-        builder: (context, state) => const RegisterPage(),
+        builder: (BuildContext context, GoRouterState state) => const RegisterPage(),
       ),
       GoRoute(
         path: '/apply-membership',
-        builder: (context, state) => const MembershipApplicationPage(),
+        builder: (BuildContext context, GoRouterState state) => const MembershipApplicationPage(),
       ),
       ShellRoute(
-        builder: (context, state, child) => MainNavigation(child: child),
-        routes: [
+        builder: (BuildContext context, GoRouterState state, Widget child) => MainNavigation(child: child),
+        routes: <RouteBase>[
           GoRoute(
             path: '/home',
-            builder: (context, state) => const NewsFeedPage(),
+            builder: (BuildContext context, GoRouterState state) => const NewsFeedPage(),
           ),
           GoRoute(
             path: '/create-news',
-            builder: (context, state) => const CreateNewsPage(),
+            builder: (BuildContext context, GoRouterState state) => const CreateNewsPage(),
           ),
           GoRoute(
             path: '/pending-applications',
-            builder: (context, state) => const PendingApplicationsPage(),
+            builder: (BuildContext context, GoRouterState state) => const PendingApplicationsPage(),
           ),
           GoRoute(
             path: '/profile',
-            builder: (context, state) => const ProfilePage(),
+            builder: (BuildContext context, GoRouterState state) => const ProfilePage(),
           ),
         ],
       ),

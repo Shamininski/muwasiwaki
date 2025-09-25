@@ -5,9 +5,9 @@ import '../../../../core/usecases/usecase.dart';
 import '../repositories/roles_repository.dart';
 
 class AssignRoleUseCase implements UseCase<void, AssignRoleParams> {
-  final RolesRepository repository;
 
   AssignRoleUseCase(this.repository);
+  final RolesRepository repository;
 
   @override
   Future<Either<Failure, void>> call(AssignRoleParams params) async {
@@ -20,13 +20,13 @@ class AssignRoleUseCase implements UseCase<void, AssignRoleParams> {
 }
 
 class AssignRoleParams {
-  final String userId;
-  final String roleId;
-  final DateTime? expiresAt;
 
   AssignRoleParams({
     required this.userId,
     required this.roleId,
     this.expiresAt,
   });
+  final String userId;
+  final String roleId;
+  final DateTime? expiresAt;
 }

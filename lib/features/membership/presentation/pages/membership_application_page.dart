@@ -15,16 +15,16 @@ class MembershipApplicationPage extends StatefulWidget {
 }
 
 class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
-  final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _phoneController = TextEditingController();
-  final _districtController = TextEditingController();
-  final _professionController = TextEditingController();
-  final _reasonController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _districtController = TextEditingController();
+  final TextEditingController _professionController = TextEditingController();
+  final TextEditingController _reasonController = TextEditingController();
 
   DateTime _dateOfEntry = DateTime.now();
-  List<FamilyMember> _familyMembers = [];
+  final List<FamilyMember> _familyMembers = <FamilyMember>[];
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
         backgroundColor: const Color(0xFF667EEA),
       ),
       body: BlocListener<MembershipBloc, MembershipState>(
-        listener: (context, state) {
+        listener: (BuildContext context, Object? state) {
           if (state is MembershipApplicationSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
@@ -54,7 +54,7 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 _buildPersonalInfoSection(),
                 const SizedBox(height: 24),
                 _buildDateOfEntrySection(),
@@ -62,7 +62,7 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
                 _buildFamilyMembersSection(),
                 const SizedBox(height: 32),
                 BlocBuilder<MembershipBloc, MembershipState>(
-                  builder: (context, state) {
+                  builder: (BuildContext context, Object? state) {
                     return SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
@@ -106,7 +106,7 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             Text(
               'Personal Information',
               style: Theme.of(
@@ -120,7 +120,7 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
                 labelText: 'Full Name *',
                 border: OutlineInputBorder(),
               ),
-              validator: (value) =>
+              validator: (String? value) =>
                   value?.isEmpty == true ? 'Name is required' : null,
             ),
             const SizedBox(height: 16),
@@ -130,7 +130,7 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
                 labelText: 'Email Address *',
                 border: OutlineInputBorder(),
               ),
-              validator: (value) =>
+              validator: (String? value) =>
                   value?.isEmpty == true ? 'Email is required' : null,
             ),
             const SizedBox(height: 16),
@@ -140,7 +140,7 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
                 labelText: 'Phone Number *',
                 border: OutlineInputBorder(),
               ),
-              validator: (value) =>
+              validator: (String? value) =>
                   value?.isEmpty == true ? 'Phone is required' : null,
             ),
             const SizedBox(height: 16),
@@ -150,7 +150,7 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
                 labelText: 'District *',
                 border: OutlineInputBorder(),
               ),
-              validator: (value) =>
+              validator: (String? value) =>
                   value?.isEmpty == true ? 'District is required' : null,
             ),
             const SizedBox(height: 16),
@@ -182,7 +182,7 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             Text(
               'Date of Entry',
               style: Theme.of(
@@ -200,7 +200,7 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: <Widget>[
                     Text(DateFormat('MMM dd, yyyy').format(_dateOfEntry)),
                     const Icon(Icons.calendar_today),
                   ],
@@ -219,10 +219,10 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: <Widget>[
                 Text(
                   'Family Members',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -243,9 +243,9 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
                 style: TextStyle(color: Colors.grey),
               )
             else
-              ..._familyMembers.asMap().entries.map((entry) {
-                final index = entry.key;
-                final member = entry.value;
+              ..._familyMembers.asMap().entries.map((MapEntry<int, FamilyMember> entry) {
+                final int index = entry.key;
+                final FamilyMember member = entry.value;
                 return Card(
                   margin: const EdgeInsets.only(bottom: 8),
                   child: ListTile(
@@ -259,7 +259,7 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
                     ),
                   ),
                 );
-              }).toList(),
+              }),
           ],
         ),
       ),
@@ -267,7 +267,7 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
   }
 
   void _selectDateOfEntry() async {
-    final date = await showDatePicker(
+    final DateTime? date = await showDatePicker(
       context: context,
       initialDate: _dateOfEntry,
       firstDate: DateTime.now().subtract(const Duration(days: 365)),
@@ -283,8 +283,8 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
   void _addFamilyMember() {
     showDialog(
       context: context,
-      builder: (context) => FamilyMemberForm(
-        onSave: (member) {
+      builder: (BuildContext context) => FamilyMemberForm(
+        onSave: (FamilyMember member) {
           setState(() {
             _familyMembers.add(member);
           });

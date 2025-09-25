@@ -2,11 +2,6 @@
 import 'package:flutter/material.dart';
 
 class EmptyStateWidget extends StatelessWidget {
-  final String title;
-  final String message;
-  final IconData icon;
-  final VoidCallback? onAction;
-  final String? actionText;
 
   const EmptyStateWidget({
     super.key,
@@ -16,6 +11,11 @@ class EmptyStateWidget extends StatelessWidget {
     this.onAction,
     this.actionText,
   });
+  final String title;
+  final String message;
+  final IconData icon;
+  final VoidCallback? onAction;
+  final String? actionText;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class EmptyStateWidget extends StatelessWidget {
         padding: const EdgeInsets.all(24),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: [
+          children: <Widget>[
             Icon(
               icon,
               size: 64,
@@ -42,7 +42,7 @@ class EmptyStateWidget extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyMedium,
               textAlign: TextAlign.center,
             ),
-            if (onAction != null && actionText != null) ...[
+            if (onAction != null && actionText != null) ...<Widget>[
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: onAction,

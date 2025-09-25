@@ -2,15 +2,6 @@
 import 'package:equatable/equatable.dart';
 
 class RoleAssignment extends Equatable {
-  final String id;
-  final String userId;
-  final String roleId;
-  final String roleName;
-  final String assignedBy;
-  final String assignedByName;
-  final DateTime assignedAt;
-  final DateTime? expiresAt;
-  final bool isActive;
 
   const RoleAssignment({
     required this.id,
@@ -23,9 +14,18 @@ class RoleAssignment extends Equatable {
     this.expiresAt,
     required this.isActive,
   });
+  final String id;
+  final String userId;
+  final String roleId;
+  final String roleName;
+  final String assignedBy;
+  final String assignedByName;
+  final DateTime assignedAt;
+  final DateTime? expiresAt;
+  final bool isActive;
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props => <Object?>[
         id,
         userId,
         roleId,

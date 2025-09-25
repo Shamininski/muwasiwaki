@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import '../bloc/news_bloc.dart';
-import '../../domain/entities/news_article.dart';
+import 'package:muwasiwaki/shared/enums/user_role.dart';
+
 import '../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../domain/entities/news_article.dart';
+import '../bloc/news_bloc.dart';
 
 class NewsFeedPage extends StatelessWidget {
   const NewsFeedPage({super.key});
@@ -16,12 +18,12 @@ class NewsFeedPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('MUWASIWAKI News'),
         backgroundColor: const Color(0xFF667EEA),
-        actions: [
+        actions: <Widget>[
           IconButton(onPressed: () {}, icon: const Icon(Icons.notifications)),
         ],
       ),
       body: BlocBuilder<NewsBloc, NewsState>(
-        builder: (context, state) {
+        builder: (BuildContext context, Object? state) {
           if (state is NewsLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is NewsLoaded) {
@@ -32,7 +34,7 @@ class NewsFeedPage extends StatelessWidget {
               child: ListView.builder(
                 padding: const EdgeInsets.all(16),
                 itemCount: state.articles.length,
-                itemBuilder: (context, index) {
+                itemBuilder: (BuildContext context, int index) {
                   final article = state.articles[index];
                   return _NewsCard(article: article);
                 },
@@ -42,7 +44,7 @@ class NewsFeedPage extends StatelessWidget {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: <Widget>[
                   const Icon(Icons.error, size: 64, color: Colors.grey),
                   const SizedBox(height: 16),
                   Text(state.message),
@@ -60,7 +62,7 @@ class NewsFeedPage extends StatelessWidget {
         },
       ),
       floatingActionButton: BlocBuilder<AuthBloc, AuthState>(
-        builder: (context, state) {
+        builder: (BuildContext context, AuthState state) {
           if (state is AuthAuthenticated && state.user.role.canCreateNews) {
             return FloatingActionButton(
               onPressed: () => context.push('/create-news'),
@@ -76,9 +78,8 @@ class NewsFeedPage extends StatelessWidget {
 }
 
 class _NewsCard extends StatelessWidget {
-  final NewsArticle article;
-
   const _NewsCard({required this.article});
+  final NewsArticle article;
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +88,7 @@ class _NewsCard extends StatelessWidget {
       elevation: 2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: const BorderSide(color: Color(0xFF667EEA), width: 1),
+        side: const BorderSide(color: Color(0xFF667EEA)),
       ),
       child: InkWell(
         onTap: () => context.push('/news/${article.id}'),
@@ -96,7 +97,7 @@ class _NewsCard extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               Text(
                 article.title,
                 style: const TextStyle(
@@ -107,7 +108,7 @@ class _NewsCard extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Row(
-                children: [
+                children: <Widget>[
                   Text(
                     'By ${article.authorName}',
                     style: const TextStyle(fontSize: 12, color: Colors.grey),

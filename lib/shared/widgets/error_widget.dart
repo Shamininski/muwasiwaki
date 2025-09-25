@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
 class CustomErrorWidget extends StatelessWidget {
-  final String message;
-  final VoidCallback? onRetry;
-  final IconData icon;
 
   const CustomErrorWidget({
     super.key,
@@ -11,6 +8,9 @@ class CustomErrorWidget extends StatelessWidget {
     this.onRetry,
     this.icon = Icons.error_outline,
   });
+  final String message;
+  final VoidCallback? onRetry;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class CustomErrorWidget extends StatelessWidget {
         padding: const EdgeInsets.all(24),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: [
+          children: <Widget>[
             Icon(
               icon,
               size: 64,
@@ -37,7 +37,7 @@ class CustomErrorWidget extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyMedium,
               textAlign: TextAlign.center,
             ),
-            if (onRetry != null) ...[
+            if (onRetry != null) ...<Widget>[
               const SizedBox(height: 24),
               ElevatedButton.icon(
                 onPressed: onRetry,

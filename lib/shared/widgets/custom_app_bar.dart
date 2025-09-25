@@ -5,10 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/bloc/auth_bloc.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final String title;
-  final List<Widget>? actions;
-  final bool showLogout;
-  final Widget? leading;
 
   const CustomAppBar({
     super.key,
@@ -17,22 +13,26 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.showLogout = true,
     this.leading,
   });
+  final String title;
+  final List<Widget>? actions;
+  final bool showLogout;
+  final Widget? leading;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       title: Text(title),
       leading: leading,
-      actions: [
+      actions: <Widget>[
         ...?actions,
         if (showLogout)
           PopupMenuButton<String>(
-            onSelected: (value) {
+            onSelected: (String value) {
               if (value == 'logout') {
                 _showLogoutDialog(context);
               }
             },
-            itemBuilder: (BuildContext context) => [
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
               const PopupMenuItem<String>(
                 value: 'logout',
                 child: ListTile(
@@ -54,7 +54,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         return AlertDialog(
           title: const Text('Logout'),
           content: const Text('Are you sure you want to logout?'),
-          actions: [
+          actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
               child: const Text('Cancel'),

@@ -6,10 +6,6 @@ import '../../features/auth/domain/entities/user.dart';
 import '../../shared/enums/user_role.dart';
 
 class RoleBasedWidget extends StatelessWidget {
-  final Widget child;
-  final List<UserRole>? allowedRoles;
-  final List<String>? requiredPermissions;
-  final Widget? fallback;
 
   const RoleBasedWidget({
     super.key,
@@ -18,16 +14,20 @@ class RoleBasedWidget extends StatelessWidget {
     this.requiredPermissions,
     this.fallback,
   });
+  final Widget child;
+  final List<UserRole>? allowedRoles;
+  final List<String>? requiredPermissions;
+  final Widget? fallback;
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
-      builder: (context, state) {
+      builder: (BuildContext context, AuthState state) {
         if (state is! AuthAuthenticated) {
           return fallback ?? const SizedBox.shrink();
         }
 
-        final user = state.user;
+        final AppUser user = state.user;
 
         // Check role-based access
         if (allowedRoles != null && !allowedRoles!.contains(user.role)) {

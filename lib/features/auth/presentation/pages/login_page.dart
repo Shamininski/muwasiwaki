@@ -12,15 +12,15 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocListener<AuthBloc, AuthState>(
-        listener: (context, state) {
+        listener: (BuildContext context, AuthState state) {
           if (state is AuthAuthenticated) {
             context.go('/home');
           } else if (state is AuthError) {
@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
+              colors: <Color>[Color(0xFF667EEA), Color(0xFF764BA2)],
             ),
           ),
           child: SafeArea(
@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
               padding: const EdgeInsets.all(24),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: <Widget>[
                   Container(
                     width: 100,
                     height: 100,
@@ -82,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: Form(
                         key: _formKey,
                         child: Column(
-                          children: [
+                          children: <Widget>[
                             TextFormField(
                               controller: _emailController,
                               decoration: const InputDecoration(
@@ -90,9 +90,10 @@ class _LoginPageState extends State<LoginPage> {
                                 prefixIcon: Icon(Icons.email),
                                 border: OutlineInputBorder(),
                               ),
-                              validator: (value) {
-                                if (value?.isEmpty == true)
+                              validator: (String? value) {
+                                if (value?.isEmpty == true) {
                                   return 'Email is required';
+                                }
                                 if (!RegExp(
                                   r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
                                 ).hasMatch(value!)) {
@@ -110,13 +111,13 @@ class _LoginPageState extends State<LoginPage> {
                                 prefixIcon: Icon(Icons.lock),
                                 border: OutlineInputBorder(),
                               ),
-                              validator: (value) => value?.isEmpty == true
+                              validator: (String? value) => value?.isEmpty == true
                                   ? 'Password is required'
                                   : null,
                             ),
                             const SizedBox(height: 24),
                             BlocBuilder<AuthBloc, AuthState>(
-                              builder: (context, state) {
+                              builder: (BuildContext context, AuthState state) {
                                 return SizedBox(
                                   width: double.infinity,
                                   child: ElevatedButton(
@@ -165,7 +166,7 @@ class _LoginPageState extends State<LoginPage> {
                   TextButton(
                     onPressed: () => context.go('/apply-membership'),
                     child: const Text(
-                      "Apply for Membership",
+                      'Apply for Membership',
                       style: TextStyle(
                         color: Colors.white,
                         decoration: TextDecoration.underline,

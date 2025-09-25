@@ -5,9 +5,9 @@ import '../../../../core/usecases/usecase.dart';
 import '../repositories/roles_repository.dart';
 
 class RevokeRoleUseCase implements UseCase<void, RevokeRoleParams> {
-  final RolesRepository repository;
 
   RevokeRoleUseCase(this.repository);
+  final RolesRepository repository;
 
   @override
   Future<Either<Failure, void>> call(RevokeRoleParams params) async {
@@ -19,8 +19,8 @@ class RevokeRoleUseCase implements UseCase<void, RevokeRoleParams> {
 }
 
 class RevokeRoleParams {
-  final String userId;
-  final String roleId;
 
   RevokeRoleParams({required this.userId, required this.roleId});
+  final String userId;
+  final String roleId;
 }
