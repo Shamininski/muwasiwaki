@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../features/auth/presentation/bloc/auth_bloc.dart';
-import '../features/auth/presentation/pages/login_page.dart';
 import '../features/auth/presentation/pages/register_page.dart';
 import '../features/news/presentation/pages/news_feed_page.dart';
 import '../features/news/presentation/pages/create_news_page.dart';
@@ -11,6 +10,7 @@ import '../features/membership/presentation/pages/membership_application_page.da
 import '../features/membership/presentation/pages/pending_applications_page.dart';
 import '../features/profile/presentation/pages/profile_page.dart';
 import '../shared/widgets/main_navigation.dart';
+import '../features/auth/presentation/pages/login_page.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
@@ -28,31 +28,43 @@ class AppRouter {
     },
     routes: <RouteBase>[
       GoRoute(
+        path: '/login',
+        builder: (BuildContext context, GoRouterState state) =>
+            const LoginPage(),
+      ),
+      GoRoute(
         path: '/register',
-        builder: (BuildContext context, GoRouterState state) => const RegisterPage(),
+        builder: (BuildContext context, GoRouterState state) =>
+            const RegisterPage(),
       ),
       GoRoute(
         path: '/apply-membership',
-        builder: (BuildContext context, GoRouterState state) => const MembershipApplicationPage(),
+        builder: (BuildContext context, GoRouterState state) =>
+            const MembershipApplicationPage(),
       ),
       ShellRoute(
-        builder: (BuildContext context, GoRouterState state, Widget child) => MainNavigation(child: child),
+        builder: (BuildContext context, GoRouterState state, Widget child) =>
+            MainNavigation(child: child),
         routes: <RouteBase>[
           GoRoute(
             path: '/home',
-            builder: (BuildContext context, GoRouterState state) => const NewsFeedPage(),
+            builder: (BuildContext context, GoRouterState state) =>
+                const NewsFeedPage(),
           ),
           GoRoute(
             path: '/create-news',
-            builder: (BuildContext context, GoRouterState state) => const CreateNewsPage(),
+            builder: (BuildContext context, GoRouterState state) =>
+                const CreateNewsPage(),
           ),
           GoRoute(
             path: '/pending-applications',
-            builder: (BuildContext context, GoRouterState state) => const PendingApplicationsPage(),
+            builder: (BuildContext context, GoRouterState state) =>
+                const PendingApplicationsPage(),
           ),
           GoRoute(
             path: '/profile',
-            builder: (BuildContext context, GoRouterState state) => const ProfilePage(),
+            builder: (BuildContext context, GoRouterState state) =>
+                const ProfilePage(),
           ),
         ],
       ),

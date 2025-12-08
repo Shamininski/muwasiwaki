@@ -1,4 +1,4 @@
-// lib/shared/enums/user_role.dart
+// lib/shared/enums/user_role.dart  Changed on 08-Nov-2025
 import 'package:flutter/material.dart';
 
 enum UserRole {
@@ -30,7 +30,7 @@ extension UserRoleExtension on UserRole {
       case UserRole.districtRepresentative:
         return 'District Representative';
       case UserRole.admin:
-        return 'Administrator';
+        return 'Admin';
     }
   }
 

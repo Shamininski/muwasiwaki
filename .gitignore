@@ -123,3 +123,5 @@ app.*.map.json
 /android/app/release
 
 
+# initial setup testers during development
+initial_setup.dart
