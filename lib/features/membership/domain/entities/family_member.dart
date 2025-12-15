@@ -1,7 +1,4 @@
 // lib/features/membership/data/entities/family_member.dart
-// Note: This should be in domain/entities, not data/entities
-// Correcting the path - this file should be moved to domain/entities/family_member.dart
-
 import 'package:equatable/equatable.dart';
 
 class FamilyMember extends Equatable {

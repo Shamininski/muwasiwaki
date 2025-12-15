@@ -1,6 +1,4 @@
-// Update to lib/features/membership/data/datasources/membership_remote_datasource.dart
-// Adding the missing getApplicationById method
-
+// lib/features/membership/data/datasources/membership_remote_datasource.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../domain/entities/membership_application.dart';

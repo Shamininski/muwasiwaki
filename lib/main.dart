@@ -1,44 +1,4 @@
-// import 'package:flutter/material.dart';
-
-// void main() {
-//   runApp(const MainApp());
-// }
-
-// class MainApp extends StatelessWidget {
-//   const MainApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       home: Scaffold(
-//         body: Center(
-//           child: Text('Hello World!'),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// // lib/main.dart
-// import 'package:firebase_core/firebase_core.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'app.dart';
-// import 'core/injection/injection_container.dart' as di;
-// import 'core/setup/initial_setup.dart'; // Add this import
-
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp();
-//   await di.init();
-
-//   // 🌱 RUN SEED DATA - Run this ONCE, then comment it out!
-//   await InitialSetup.createAllSeedUsers();
-
-//   runApp(const MuwasiwakiApp());
-// }
-
-// added on 8th Nov 2023
+// added on 8th Nov 2025
 // lib/main.dart
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
