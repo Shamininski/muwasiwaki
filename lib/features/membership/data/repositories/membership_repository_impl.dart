@@ -18,7 +18,6 @@ class MembershipRepositoryImpl implements MembershipRepository {
     required String phone,
     required String district,
     required String profession,
-    required String reasonForJoining,
     required DateTime dateOfEntry,
     required List<FamilyMember> familyMembers,
   }) async {
@@ -29,7 +28,6 @@ class MembershipRepositoryImpl implements MembershipRepository {
         phone: phone,
         district: district,
         profession: profession,
-        reasonForJoining: reasonForJoining,
         dateOfEntry: dateOfEntry,
         familyMembers: familyMembers,
       );

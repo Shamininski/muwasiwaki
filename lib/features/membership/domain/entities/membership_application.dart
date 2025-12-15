@@ -5,7 +5,6 @@ import 'family_member.dart';
 enum ApplicationStatus { pending, approved, rejected }
 
 class MembershipApplication extends Equatable {
-
   const MembershipApplication({
     required this.id,
     required this.applicantName,
@@ -13,7 +12,6 @@ class MembershipApplication extends Equatable {
     required this.phone,
     required this.district,
     required this.profession,
-    required this.reasonForJoining,
     required this.dateOfEntry,
     required this.familyMembers,
     required this.status,
@@ -27,7 +25,6 @@ class MembershipApplication extends Equatable {
   final String phone;
   final String district;
   final String profession;
-  final String reasonForJoining;
   final DateTime dateOfEntry;
   final List<FamilyMember> familyMembers;
   final ApplicationStatus status;
@@ -37,18 +34,17 @@ class MembershipApplication extends Equatable {
 
   @override
   List<Object?> get props => <Object?>[
-    id,
-    applicantName,
-    email,
-    phone,
-    district,
-    profession,
-    reasonForJoining,
-    dateOfEntry,
-    familyMembers,
-    status,
-    createdAt,
-    reviewedBy,
-    reviewedAt,
-  ];
+        id,
+        applicantName,
+        email,
+        phone,
+        district,
+        profession,
+        dateOfEntry,
+        familyMembers,
+        status,
+        createdAt,
+        reviewedBy,
+        reviewedAt,
+      ];
 }

@@ -216,15 +216,6 @@ class _ApplicationCard extends StatelessWidget {
                   _DetailRow('Date of Entry',
                       AppDateUtils.formatDateReadable(application.dateOfEntry)),
                 ]),
-                if (application.reasonForJoining.isNotEmpty) ...[
-                  const SizedBox(height: 16),
-                  _buildDetailSection('Reason for Joining', []),
-                  const SizedBox(height: 8),
-                  Text(
-                    application.reasonForJoining,
-                    style: const TextStyle(fontSize: 14),
-                  ),
-                ],
                 if (application.familyMembers.isNotEmpty) ...[
                   const SizedBox(height: 16),
                   _buildDetailSection('Family Members', []),

@@ -19,7 +19,6 @@ class SubmitApplicationEvent extends MembershipEvent {
   final String phone;
   final String district;
   final String profession;
-  final String reasonForJoining;
   final DateTime dateOfEntry;
   final List<FamilyMember> familyMembers;
 
@@ -29,7 +28,6 @@ class SubmitApplicationEvent extends MembershipEvent {
     required this.phone,
     required this.district,
     required this.profession,
-    required this.reasonForJoining,
     required this.dateOfEntry,
     required this.familyMembers,
   });
@@ -41,7 +39,6 @@ class SubmitApplicationEvent extends MembershipEvent {
         phone,
         district,
         profession,
-        reasonForJoining,
         dateOfEntry,
         familyMembers,
       ];
@@ -147,7 +144,6 @@ class MembershipBloc extends Bloc<MembershipEvent, MembershipState> {
       phone: event.phone,
       district: event.district,
       profession: event.profession,
-      reasonForJoining: event.reasonForJoining,
       dateOfEntry: event.dateOfEntry,
       familyMembers: event.familyMembers,
     ));

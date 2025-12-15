@@ -15,7 +15,6 @@ abstract class MembershipRemoteDataSource {
     required String phone,
     required String district,
     required String profession,
-    required String reasonForJoining,
     required DateTime dateOfEntry,
     required List<FamilyMember> familyMembers,
   });
@@ -42,7 +41,6 @@ class MembershipRemoteDataSourceImpl implements MembershipRemoteDataSource {
     required String phone,
     required String district,
     required String profession,
-    required String reasonForJoining,
     required DateTime dateOfEntry,
     required List<FamilyMember> familyMembers,
   }) async {
@@ -54,7 +52,6 @@ class MembershipRemoteDataSourceImpl implements MembershipRemoteDataSource {
         phone: phone,
         district: district,
         profession: profession,
-        reasonForJoining: reasonForJoining,
         dateOfEntry: dateOfEntry,
         familyMembers: familyMembers
             .map((fm) => FamilyMemberModel.fromEntity(fm))

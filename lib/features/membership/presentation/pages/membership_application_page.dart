@@ -162,14 +162,6 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
               ),
             ),
             const SizedBox(height: 16),
-            TextFormField(
-              controller: _reasonController,
-              decoration: const InputDecoration(
-                labelText: 'Reason for Joining',
-                border: OutlineInputBorder(),
-              ),
-              maxLines: 3,
-            ),
           ],
         ),
       ),
@@ -226,8 +218,8 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
                 Text(
                   'Family Members',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
                 TextButton.icon(
                   onPressed: _addFamilyMember,
@@ -243,7 +235,10 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
                 style: TextStyle(color: Colors.grey),
               )
             else
-              ..._familyMembers.asMap().entries.map((MapEntry<int, FamilyMember> entry) {
+              ..._familyMembers
+                  .asMap()
+                  .entries
+                  .map((MapEntry<int, FamilyMember> entry) {
                 final int index = entry.key;
                 final FamilyMember member = entry.value;
                 return Card(
@@ -303,17 +298,16 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
   void _submitApplication() {
     if (_formKey.currentState?.validate() == true) {
       context.read<MembershipBloc>().add(
-        SubmitApplicationEvent(
-          applicantName: _nameController.text,
-          email: _emailController.text,
-          phone: _phoneController.text,
-          district: _districtController.text,
-          profession: _professionController.text,
-          reasonForJoining: _reasonController.text,
-          dateOfEntry: _dateOfEntry,
-          familyMembers: _familyMembers,
-        ),
-      );
+            SubmitApplicationEvent(
+              applicantName: _nameController.text,
+              email: _emailController.text,
+              phone: _phoneController.text,
+              district: _districtController.text,
+              profession: _professionController.text,
+              dateOfEntry: _dateOfEntry,
+              familyMembers: _familyMembers,
+            ),
+          );
     }
   }
 }

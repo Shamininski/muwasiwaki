@@ -12,7 +12,6 @@ class MembershipApplicationModel extends MembershipApplication {
     required super.phone,
     required super.district,
     required super.profession,
-    required super.reasonForJoining,
     required super.dateOfEntry,
     required super.familyMembers,
     required super.status,
@@ -53,7 +52,6 @@ class MembershipApplicationModel extends MembershipApplication {
       phone: data['phone'] ?? '',
       district: data['district'] ?? '',
       profession: data['profession'] ?? '',
-      reasonForJoining: data['reasonForJoining'] ?? '',
       dateOfEntry: _parseTimestamp(data['dateOfEntry']),
       familyMembers: familyMembersList,
       status: status,
@@ -82,7 +80,6 @@ class MembershipApplicationModel extends MembershipApplication {
       'phone': phone,
       'district': district,
       'profession': profession,
-      'reasonForJoining': reasonForJoining,
       'dateOfEntry': Timestamp.fromDate(dateOfEntry),
       'familyMembers': familyMembers
           .map((member) => FamilyMemberModel.fromEntity(member).toMap())
@@ -102,7 +99,6 @@ class MembershipApplicationModel extends MembershipApplication {
       phone: phone,
       district: district,
       profession: profession,
-      reasonForJoining: reasonForJoining,
       dateOfEntry: dateOfEntry,
       familyMembers: familyMembers,
       status: status,
@@ -120,7 +116,6 @@ class MembershipApplicationModel extends MembershipApplication {
       phone: entity.phone,
       district: entity.district,
       profession: entity.profession,
-      reasonForJoining: entity.reasonForJoining,
       dateOfEntry: entity.dateOfEntry,
       familyMembers: entity.familyMembers,
       status: entity.status,
@@ -141,7 +136,6 @@ extension MembershipApplicationModelLocalStorage on MembershipApplicationModel {
       'phone': phone,
       'district': district,
       'profession': profession,
-      'reasonForJoining': reasonForJoining,
       'dateOfEntry': dateOfEntry.toIso8601String(),
       'familyMembers': familyMembers
           .map((member) => {
@@ -165,7 +159,6 @@ extension MembershipApplicationModelLocalStorage on MembershipApplicationModel {
       phone: map['phone'] ?? '',
       district: map['district'] ?? '',
       profession: map['profession'] ?? '',
-      reasonForJoining: map['reasonForJoining'] ?? '',
       dateOfEntry: DateTime.parse(map['dateOfEntry']),
       familyMembers: (map['familyMembers'] as List<dynamic>?)
               ?.map((member) => FamilyMember(
