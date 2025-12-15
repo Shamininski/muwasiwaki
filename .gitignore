@@ -128,10 +128,10 @@ initial_setup.dart
 
 # Added these lines below on 15 Dec 2025 to cross checked from above to not repeat them
 gradle-wrapper.jar
-.gradle/
+.gradle
 android/.gradle/
 android/local.properties
-/local.properties
+local.properties
 /captures/
 GeneratedPluginRegistrant.java
 .cxx/
