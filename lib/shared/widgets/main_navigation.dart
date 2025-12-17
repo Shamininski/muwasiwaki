@@ -20,13 +20,14 @@ class MainNavigation extends StatelessWidget {
           final canManageMembers = state.user.role.canApproveMembers;
           final String currentLocation =
               GoRouterState.of(context).uri.toString();
-
+//  ********* THIS COD BLOCK IS NOT PRESENT IN THE REVISION FOR 7 SUBREGIONS **********// 16 DEC 2025
           var selectedIndex = 0;
           if (currentLocation.contains('/pending-applications')) {
             selectedIndex = 1;
           } else if (currentLocation.contains('/profile')) {
             selectedIndex = canManageMembers ? 2 : 1;
           }
+//  ********* THIS COD BLOCK IS NOT PRESENT IN THE REVISION FOR 7 SUBREGIONS **********// 16 DEC 2025
 
           return BottomNavigationBar(
             type: BottomNavigationBarType.fixed,

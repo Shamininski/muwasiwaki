@@ -15,6 +15,8 @@ class CreateNewsUseCase implements UseCase<void, CreateNewsParams> {
       title: params.title,
       content: params.content,
       category: params.category,
+      authorId: params.authorId,
+      authorName: params.authorName,
     );
   }
 }
@@ -23,10 +25,14 @@ class CreateNewsParams {
   final String title;
   final String content;
   final String category;
+  final String authorId;
+  final String authorName;
 
   CreateNewsParams({
     required this.title,
     required this.content,
     required this.category,
+    required this.authorId,
+    required this.authorName,
   });
 }

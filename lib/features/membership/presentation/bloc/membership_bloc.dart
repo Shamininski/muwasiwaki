@@ -6,6 +6,7 @@ import '../../domain/entities/family_member.dart';
 import '../../domain/usecases/apply_membership_usecase.dart';
 import '../../domain/usecases/approve_membership_usecase.dart';
 import '../../domain/usecases/get_applications_usecase.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 // Events
 abstract class MembershipEvent extends Equatable {
@@ -17,7 +18,7 @@ class SubmitApplicationEvent extends MembershipEvent {
   final String applicantName;
   final String email;
   final String phone;
-  final String district;
+  final String subregion;
   final String profession;
   final DateTime dateOfEntry;
   final List<FamilyMember> familyMembers;
@@ -26,7 +27,7 @@ class SubmitApplicationEvent extends MembershipEvent {
     required this.applicantName,
     required this.email,
     required this.phone,
-    required this.district,
+    required this.subregion,
     required this.profession,
     required this.dateOfEntry,
     required this.familyMembers,
@@ -37,24 +38,28 @@ class SubmitApplicationEvent extends MembershipEvent {
         applicantName,
         email,
         phone,
-        district,
+        subregion,
         profession,
         dateOfEntry,
         familyMembers,
       ];
 }
 
-class LoadApplicationsEvent extends MembershipEvent {}
+class LoadPendingApplicationsEvent extends MembershipEvent {}
 
 class RefreshApplicationsEvent extends MembershipEvent {}
 
 class ApproveApplicationEvent extends MembershipEvent {
   final String applicationId;
+  final String reviewerId;
 
-  ApproveApplicationEvent(this.applicationId);
+  ApproveApplicationEvent({
+    required this.applicationId,
+    required this.reviewerId,
+  });
 
   @override
-  List<Object?> get props => [applicationId];
+  List<Object?> get props => [applicationId, reviewerId];
 }
 
 class RejectApplicationEvent extends MembershipEvent {
@@ -126,7 +131,7 @@ class MembershipBloc extends Bloc<MembershipEvent, MembershipState> {
     required this.getApplicationsUseCase,
   }) : super(MembershipInitial()) {
     on<SubmitApplicationEvent>(_onSubmitApplication);
-    on<LoadApplicationsEvent>(_onLoadApplications);
+    on<LoadPendingApplicationsEvent>(_onLoadPendingApplications);
     on<RefreshApplicationsEvent>(_onRefreshApplications);
     on<ApproveApplicationEvent>(_onApproveApplication);
     on<RejectApplicationEvent>(_onRejectApplication);
@@ -142,7 +147,7 @@ class MembershipBloc extends Bloc<MembershipEvent, MembershipState> {
       applicantName: event.applicantName,
       email: event.email,
       phone: event.phone,
-      district: event.district,
+      subregion: event.subregion,
       profession: event.profession,
       dateOfEntry: event.dateOfEntry,
       familyMembers: event.familyMembers,
@@ -154,8 +159,8 @@ class MembershipBloc extends Bloc<MembershipEvent, MembershipState> {
     );
   }
 
-  Future<void> _onLoadApplications(
-    LoadApplicationsEvent event,
+  Future<void> _onLoadPendingApplications(
+    LoadPendingApplicationsEvent event,
     Emitter<MembershipState> emit,
   ) async {
     if (state is! ApplicationsLoaded) {
@@ -186,7 +191,7 @@ class MembershipBloc extends Bloc<MembershipEvent, MembershipState> {
   ) async {
     final result = await approveMembershipUseCase(ApproveMembershipParams(
       applicationId: event.applicationId,
-      approved: true,
+      reviewerId: event.reviewerId,
     ));
 
     result.fold(
@@ -194,25 +199,27 @@ class MembershipBloc extends Bloc<MembershipEvent, MembershipState> {
       (_) {
         emit(MembershipActionSuccess(
             message: 'Application approved successfully'));
-        add(LoadApplicationsEvent()); // Refresh the list
+        add(LoadPendingApplicationsEvent()); // Refresh the list
       },
     );
   }
 
+// The following code snippet was added on 17 Dec 2025 with help from CoPilot to remove the reviewerId from the RejectApplicationEvent
   Future<void> _onRejectApplication(
     RejectApplicationEvent event,
     Emitter<MembershipState> emit,
   ) async {
+    final reviewerId = FirebaseAuth.instance.currentUser?.uid ?? '';
     final result = await approveMembershipUseCase(ApproveMembershipParams(
       applicationId: event.applicationId,
-      approved: false,
+      reviewerId: reviewerId, // provide reviewerId for rejection
     ));
 
     result.fold(
       (failure) => emit(MembershipError(message: failure.message)),
       (_) {
         emit(MembershipActionSuccess(message: 'Application rejected'));
-        add(LoadApplicationsEvent()); // Refresh the list
+        add(LoadPendingApplicationsEvent()); // Refresh the list
       },
     );
   }

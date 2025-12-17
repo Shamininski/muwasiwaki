@@ -10,7 +10,7 @@ class MembershipApplication extends Equatable {
     required this.applicantName,
     required this.email,
     required this.phone,
-    required this.district,
+    required this.subregion,
     required this.profession,
     required this.dateOfEntry,
     required this.familyMembers,
@@ -23,7 +23,7 @@ class MembershipApplication extends Equatable {
   final String applicantName;
   final String email;
   final String phone;
-  final String district;
+  final String subregion;
   final String profession;
   final DateTime dateOfEntry;
   final List<FamilyMember> familyMembers;
@@ -38,7 +38,7 @@ class MembershipApplication extends Equatable {
         applicantName,
         email,
         phone,
-        district,
+        subregion,
         profession,
         dateOfEntry,
         familyMembers,

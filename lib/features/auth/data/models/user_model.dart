@@ -22,7 +22,7 @@ class UserModel extends AppUser {
         (role) => role.toString() == data['role'],
         orElse: () => UserRole.member,
       ),
-      createdAt: (data['createdAt'] as Timestamp).toDate(),
+      createdAt: (data['createdAt'] as Timestamp).toDate() ?? DateTime.now(),
     );
   }
 

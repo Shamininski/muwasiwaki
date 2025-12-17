@@ -16,7 +16,7 @@ class ApplyMembershipUseCase implements UseCase<void, ApplyMembershipParams> {
       applicantName: params.applicantName,
       email: params.email,
       phone: params.phone,
-      district: params.district,
+      subregion: params.subregion,
       profession: params.profession,
       dateOfEntry: params.dateOfEntry,
       familyMembers: params.familyMembers,
@@ -28,7 +28,7 @@ class ApplyMembershipParams {
   final String applicantName;
   final String email;
   final String phone;
-  final String district;
+  final String subregion;
   final String profession;
   final DateTime dateOfEntry;
   final List<FamilyMember> familyMembers;
@@ -37,7 +37,7 @@ class ApplyMembershipParams {
     required this.applicantName,
     required this.email,
     required this.phone,
-    required this.district,
+    required this.subregion,
     required this.profession,
     required this.dateOfEntry,
     required this.familyMembers,

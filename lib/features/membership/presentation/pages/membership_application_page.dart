@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import '../bloc/membership_bloc.dart';
 import '../../domain/entities/family_member.dart';
 import '../widgets/family_member_form.dart';
+import '../../../../shared/constants/subregions.dart';
 
 class MembershipApplicationPage extends StatefulWidget {
   const MembershipApplicationPage({super.key});
@@ -19,10 +20,9 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _districtController = TextEditingController();
   final TextEditingController _professionController = TextEditingController();
-  final TextEditingController _reasonController = TextEditingController();
 
+  String? _selectedSubregion;
   DateTime _dateOfEntry = DateTime.now();
   final List<FamilyMember> _familyMembers = <FamilyMember>[];
 
@@ -143,15 +143,29 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
               validator: (String? value) =>
                   value?.isEmpty == true ? 'Phone is required' : null,
             ),
+            // ********** Here is the dropdownbutton for Subregions *************
             const SizedBox(height: 16),
-            TextFormField(
-              controller: _districtController,
+            DropdownButtonFormField<String>(
+              value: _selectedSubregion,
               decoration: const InputDecoration(
-                labelText: 'District *',
+                labelText: 'Subregion *',
                 border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.location_city),
               ),
-              validator: (String? value) =>
-                  value?.isEmpty == true ? 'District is required' : null,
+              hint: const Text('Select your subregion'),
+              items: Subregions.all.map((subregion) {
+                return DropdownMenuItem(
+                  value: subregion,
+                  child: Text(subregion),
+                );
+              }).toList(),
+              onChanged: (value) {
+                setState(() {
+                  _selectedSubregion = value;
+                });
+              },
+              validator: (value) =>
+                  value == null ? 'Please select a subregion' : null,
             ),
             const SizedBox(height: 16),
             TextFormField(
@@ -297,12 +311,19 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
 
   void _submitApplication() {
     if (_formKey.currentState?.validate() == true) {
+      if (_selectedSubregion == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please select a subregion')),
+        );
+        return;
+      }
+
       context.read<MembershipBloc>().add(
             SubmitApplicationEvent(
               applicantName: _nameController.text,
               email: _emailController.text,
               phone: _phoneController.text,
-              district: _districtController.text,
+              subregion: _selectedSubregion!,
               profession: _professionController.text,
               dateOfEntry: _dateOfEntry,
               familyMembers: _familyMembers,

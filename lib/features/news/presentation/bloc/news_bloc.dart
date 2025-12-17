@@ -13,24 +13,24 @@ abstract class NewsEvent extends Equatable {
 
 class LoadNewsEvent extends NewsEvent {}
 
-class RefreshNewsEvent extends NewsEvent {}
-
 class CreateNewsEvent extends NewsEvent {
   final String title;
   final String content;
   final String category;
+  final String authorId;
+  final String authorName;
 
   CreateNewsEvent({
     required this.title,
     required this.content,
     required this.category,
+    required this.authorId,
+    required this.authorName,
   });
 
   @override
-  List<Object?> get props => [title, content, category];
+  List<Object?> get props => [title, content, category, authorId, authorName];
 }
-
-class ClearNewsErrorEvent extends NewsEvent {}
 
 // States
 abstract class NewsState extends Equatable {
@@ -42,15 +42,6 @@ class NewsInitial extends NewsState {}
 
 class NewsLoading extends NewsState {}
 
-class NewsRefreshing extends NewsState {
-  final List<NewsArticle> articles;
-
-  NewsRefreshing({required this.articles});
-
-  @override
-  List<Object?> get props => [articles];
-}
-
 class NewsLoaded extends NewsState {
   final List<NewsArticle> articles;
 
@@ -58,17 +49,6 @@ class NewsLoaded extends NewsState {
 
   @override
   List<Object?> get props => [articles];
-}
-
-class NewsCreating extends NewsState {}
-
-class NewsCreated extends NewsState {
-  final String message;
-
-  NewsCreated({this.message = 'News article created successfully'});
-
-  @override
-  List<Object?> get props => [message];
 }
 
 class NewsError extends NewsState {
@@ -90,17 +70,14 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     required this.createNewsUseCase,
   }) : super(NewsInitial()) {
     on<LoadNewsEvent>(_onLoadNews);
-    on<RefreshNewsEvent>(_onRefreshNews);
     on<CreateNewsEvent>(_onCreateNews);
-    on<ClearNewsErrorEvent>(_onClearNewsError);
+
+    // Auto-load news on initialization
+    add(LoadNewsEvent());
   }
 
-  Future<void> _onLoadNews(LoadNewsEvent event, Emitter<NewsState> emit) async {
-    // Only show loading if we don't already have articles
-    if (state is! NewsLoaded) {
-      emit(NewsLoading());
-    }
-
+  void _onLoadNews(LoadNewsEvent event, Emitter<NewsState> emit) async {
+    emit(NewsLoading());
     final result = await getNewsUseCase();
     result.fold(
       (failure) => emit(NewsError(message: failure.message)),
@@ -108,44 +85,18 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     );
   }
 
-  Future<void> _onRefreshNews(
-      RefreshNewsEvent event, Emitter<NewsState> emit) async {
-    // Show refreshing state if we have articles, otherwise show loading
-    if (state is NewsLoaded) {
-      final currentState = state as NewsLoaded;
-      emit(NewsRefreshing(articles: currentState.articles));
-    }
-
-    final result = await getNewsUseCase();
-    result.fold(
-      (failure) => emit(NewsError(message: failure.message)),
-      (articles) => emit(NewsLoaded(articles: articles)),
-    );
-  }
-
-  Future<void> _onCreateNews(
-      CreateNewsEvent event, Emitter<NewsState> emit) async {
-    emit(NewsCreating());
-
+  void _onCreateNews(CreateNewsEvent event, Emitter<NewsState> emit) async {
     final result = await createNewsUseCase(CreateNewsParams(
       title: event.title,
       content: event.content,
       category: event.category,
+      authorId: event.authorId,
+      authorName: event.authorName,
     ));
 
     result.fold(
       (failure) => emit(NewsError(message: failure.message)),
-      (_) {
-        emit(NewsCreated());
-        // Automatically reload news after creating
-        add(LoadNewsEvent());
-      },
+      (_) => add(LoadNewsEvent()), // Reload news after creation
     );
-  }
-
-  void _onClearNewsError(ClearNewsErrorEvent event, Emitter<NewsState> emit) {
-    if (state is NewsError) {
-      emit(NewsInitial());
-    }
   }
 }

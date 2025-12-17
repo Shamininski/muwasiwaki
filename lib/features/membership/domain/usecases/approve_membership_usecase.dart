@@ -10,21 +10,30 @@ class ApproveMembershipUseCase
 
   ApproveMembershipUseCase(this.repository);
 
+// &&&&&&&&&&&&&&&&&&&&&&&&&&&  Added on 17 Dec 2025 &&&&&&&&&&&&&&&&&&&&&&&&&
   @override
   Future<Either<Failure, void>> call(ApproveMembershipParams params) async {
     return await repository.approveMembership(
-      applicationId: params.applicationId,
-      approved: params.approved,
-    );
+        params.applicationId, params.reviewerId);
   }
 }
 
+// &&&&&&&&&&&&&&&&&&&&& CommentedOut on 17 DEC 2025 - 7subRegions &&&&&&&&&&&&&&&&&&&&
+//   @override
+//   Future<Either<Failure, void>> call(ApproveMembershipParams params) async {
+//     return await repository.approveMembership(
+//       applicationId: params.applicationId,
+//       approved: params.approved,
+//     );
+//   }
+// }
+
 class ApproveMembershipParams {
   final String applicationId;
-  final bool approved;
+  final String reviewerId;
 
   ApproveMembershipParams({
     required this.applicationId,
-    required this.approved,
+    required this.reviewerId,
   });
 }

@@ -23,7 +23,7 @@ class NewsArticleModel extends NewsArticle {
       content: data['content'] ?? '',
       category: data['category'] ?? 'General',
       authorId: data['authorId'] ?? '',
-      authorName: data['authorName'] ?? '',
+      authorName: data['authorName'] ?? 'Unknown',
       createdAt: (data['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
       updatedAt: (data['updatedAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
       isPublished: data['isPublished'] ?? false,

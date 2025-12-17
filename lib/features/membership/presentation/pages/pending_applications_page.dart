@@ -1,3 +1,242 @@
+// lib/features/membership/presentation/pages/pending_applications_page.dart
+// import 'package:flutter/material.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:intl/intl.dart';
+// import '../bloc/membership_bloc.dart';
+// import '../../../auth/presentation/bloc/auth_bloc.dart';
+// import '../../domain/entities/membership_application.dart';
+
+// class PendingApplicationsPage extends StatelessWidget {
+//   const PendingApplicationsPage({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('Pending Applications'),
+//         backgroundColor: const Color(0xFF667EEA),
+//       ),
+//       body: BlocBuilder<MembershipBloc, MembershipState>(
+//         builder: (context, state) {
+//           if (state is MembershipInitial) {
+//             context.read<MembershipBloc>().add(LoadPendingApplicationsEvent());
+//             return const Center(child: CircularProgressIndicator());
+//           } else if (state is MembershipLoading) {
+//             return const Center(child: CircularProgressIndicator());
+//           } else if (state is MembershipApplicationsLoaded) {
+//             if (state.applications.isEmpty) {
+//               return Center(
+//                 child: Column(
+//                   mainAxisAlignment: MainAxisAlignment.center,
+//                   children: [
+//                     Icon(Icons.inbox, size: 64, color: Colors.grey[400]),
+//                     const SizedBox(height: 16),
+//                     Text(
+//                       'No pending applications',
+//                       style: TextStyle(fontSize: 18, color: Colors.grey[600]),
+//                     ),
+//                   ],
+//                 ),
+//               );
+//             }
+//             return RefreshIndicator(
+//               onRefresh: () async {
+//                 context.read<MembershipBloc>().add(LoadPendingApplicationsEvent());
+//               },
+//               child: ListView.builder(
+//                 padding: const EdgeInsets.all(16),
+//                 itemCount: state.applications.length,
+//                 itemBuilder: (context, index) {
+//                   return _ApplicationCard(
+//                     application: state.applications[index],
+//                   );
+//                 },
+//               ),
+//             );
+//           } else if (state is MembershipError) {
+//             return Center(
+//               child: Column(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   const Icon(Icons.error, size: 64, color: Colors.red),
+//                   const SizedBox(height: 16),
+//                   Text(state.message),
+//                   const SizedBox(height: 16),
+//                   ElevatedButton(
+//                     onPressed: () {
+//                       context.read<MembershipBloc>().add(LoadPendingApplicationsEvent());
+//                     },
+//                     child: const Text('Retry'),
+//                   ),
+//                 ],
+//               ),
+//             );
+//           }
+//           return const SizedBox();
+//         },
+//       ),
+//     );
+//   }
+// }
+
+// class _ApplicationCard extends StatelessWidget {
+//   final MembershipApplication application;
+
+//   const _ApplicationCard({required this.application});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Card(
+//       margin: const EdgeInsets.only(bottom: 16),
+//       elevation: 2,
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.circular(12),
+//         side: const BorderSide(color: Colors.orange, width: 1),
+//       ),
+//       child: Padding(
+//         padding: const EdgeInsets.all(16),
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Row(
+//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//               children: [
+//                 Expanded(
+//                   child: Text(
+//                     application.applicantName,
+//                     style: const TextStyle(
+//                       fontSize: 18,
+//                       fontWeight: FontWeight.bold,
+//                     ),
+//                   ),
+//                 ),
+//                 Container(
+//                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+//                   decoration: BoxDecoration(
+//                     color: Colors.orange.withOpacity(0.1),
+//                     borderRadius: BorderRadius.circular(12),
+//                   ),
+//                   child: const Text(
+//                     'Pending',
+//                     style: TextStyle(
+//                       fontSize: 12,
+//                       color: Colors.orange,
+//                       fontWeight: FontWeight.w500,
+//                     ),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//             const SizedBox(height: 12),
+//             _InfoRow(icon: Icons.email, text: application.email),
+//             _InfoRow(icon: Icons.phone, text: application.phone),
+//             _InfoRow(icon: Icons.location_on, text: application.subregion),
+//             _InfoRow(icon: Icons.work, text: application.profession),
+//             _InfoRow(
+//               icon: Icons.calendar_today,
+//               text: 'Entry: ${DateFormat('MMM dd, yyyy').format(application.dateOfEntry)}',
+//             ),
+//             if (application.familyMembers.isNotEmpty) ...[
+//               const SizedBox(height: 12),
+//               Text(
+//                 'Family Members (${application.familyMembers.length})',
+//                 style: const TextStyle(
+//                   fontWeight: FontWeight.w500,
+//                   fontSize: 14,
+//                 ),
+//               ),
+//               const SizedBox(height: 8),
+//               ...application.familyMembers.map((member) => Padding(
+//                 padding: const EdgeInsets.only(left: 16, top: 4),
+//                 child: Text(
+//                   '• ${member.name} (${member.relationship}) - Born: ${DateFormat('MMM dd, yyyy').format(member.dateOfBirth)}',
+//                   style: const TextStyle(fontSize: 12, color: Colors.black87),
+//                 ),
+//               )),
+//             ],
+//             const SizedBox(height: 16),
+//             BlocBuilder<AuthBloc, AuthState>(
+//               builder: (context, authState) {
+//                 if (authState is! AuthAuthenticated) return const SizedBox();
+
+//                 return Row(
+//                   children: [
+//                     Expanded(
+//                       child: ElevatedButton(
+//                         onPressed: () {
+//                           context.read<MembershipBloc>().add(
+//                             ApproveApplicationEvent(
+//                               applicationId: application.id,
+//                               reviewerId: authState.user.id,
+//                             ),
+//                           );
+//                         },
+//                         style: ElevatedButton.styleFrom(
+//                           backgroundColor: Colors.green,
+//                           padding: const EdgeInsets.symmetric(vertical: 12),
+//                         ),
+//                         child: const Text(
+//                           'Approve',
+//                           style: TextStyle(color: Colors.white),
+//                         ),
+//                       ),
+//                     ),
+//                     const SizedBox(width: 12),
+//                     Expanded(
+//                       child: ElevatedButton(
+//                         onPressed: () {
+//                           // Reject functionality
+//                         },
+//                         style: ElevatedButton.styleFrom(
+//                           backgroundColor: Colors.red,
+//                           padding: const EdgeInsets.symmetric(vertical: 12),
+//                         ),
+//                         child: const Text(
+//                           'Reject',
+//                           style: TextStyle(color: Colors.white),
+//                         ),
+//                       ),
+//                     ),
+//                   ],
+//                 );
+//               },
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+// class _InfoRow extends StatelessWidget {
+//   final IconData icon;
+//   final String text;
+
+//   const _InfoRow({required this.icon, required this.text});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.only(bottom: 8),
+//       child: Row(
+//         children: [
+//           Icon(icon, size: 16, color: Colors.grey[600]),
+//           const SizedBox(width: 8),
+//           Expanded(
+//             child: Text(
+//               text,
+//               style: TextStyle(fontSize: 14, color: Colors.grey[800]),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+// &&&&&&&&&&&&&&&&&&&&& CommentedOut on 17 DEC 2025 - 7subRegions &&&&&&&&&&&&&&&&&&&&
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
 // lib/features/membership/presentation/pages/pending_applications_page.dart (Updated)
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,7 +261,7 @@ class _PendingApplicationsPageState extends State<PendingApplicationsPage> {
   void initState() {
     super.initState();
     // Load applications when page initializes
-    context.read<MembershipBloc>().add(LoadApplicationsEvent());
+    context.read<MembershipBloc>().add(LoadPendingApplicationsEvent());
   }
 
   @override
@@ -92,8 +331,9 @@ class _PendingApplicationsPageState extends State<PendingApplicationsPage> {
           } else if (state is MembershipError) {
             return CustomErrorWidget(
               message: state.message,
-              onRetry: () =>
-                  context.read<MembershipBloc>().add(LoadApplicationsEvent()),
+              onRetry: () => context
+                  .read<MembershipBloc>()
+                  .add(LoadPendingApplicationsEvent()),
             );
           }
 
@@ -120,9 +360,8 @@ class _PendingApplicationsPageState extends State<PendingApplicationsPage> {
             onPressed: () {
               Navigator.of(dialogContext).pop();
               if (approve) {
-                context
-                    .read<MembershipBloc>()
-                    .add(ApproveApplicationEvent(applicationId));
+                context.read<MembershipBloc>().add(
+                    ApproveApplicationEvent(applicationId: '', reviewerId: ''));
               } else {
                 context
                     .read<MembershipBloc>()
@@ -179,7 +418,7 @@ class _ApplicationCard extends StatelessWidget {
           children: [
             const SizedBox(height: 4),
             Text(
-              '${application.district} • Applied ${AppDateUtils.getRelativeTime(application.createdAt)}',
+              '${application.subregion} • Applied ${AppDateUtils.getRelativeTime(application.createdAt)}',
               style: const TextStyle(color: Colors.grey, fontSize: 12),
             ),
             const SizedBox(height: 8),

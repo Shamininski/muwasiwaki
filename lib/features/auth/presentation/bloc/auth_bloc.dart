@@ -17,7 +17,6 @@ abstract class AuthEvent extends Equatable {
 class CheckAuthEvent extends AuthEvent {}
 
 class LoginEvent extends AuthEvent {
-
   LoginEvent({required this.email, required this.password});
   final String email;
   final String password;
@@ -27,7 +26,6 @@ class LoginEvent extends AuthEvent {
 }
 
 class RegisterEvent extends AuthEvent {
-
   RegisterEvent({
     required this.email,
     required this.password,
@@ -54,7 +52,6 @@ class AuthInitial extends AuthState {}
 class AuthLoading extends AuthState {}
 
 class AuthAuthenticated extends AuthState {
-
   AuthAuthenticated({required this.user});
   final AppUser user;
 
@@ -65,7 +62,6 @@ class AuthAuthenticated extends AuthState {
 class AuthUnauthenticated extends AuthState {}
 
 class AuthError extends AuthState {
-
   AuthError({required this.message});
   final String message;
 
@@ -75,7 +71,6 @@ class AuthError extends AuthState {
 
 // Bloc
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-
   AuthBloc({
     required this.loginUseCase,
     required this.registerUseCase,
@@ -92,7 +87,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   void _onCheckAuth(CheckAuthEvent event, Emitter<AuthState> emit) async {
     try {
-      final Either<Failure, AppUser> result = await loginUseCase.getCurrentUser();
+      final Either<Failure, AppUser> result =
+          await loginUseCase.getCurrentUser();
       result.fold(
         (Failure failure) => emit(AuthUnauthenticated()),
         (AppUser user) => emit(AuthAuthenticated(user: user)),
@@ -123,8 +119,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       ),
     );
     result.fold(
-      (failure) => emit(AuthError(message: failure.message)),
-      (user) => emit(AuthAuthenticated(user: user)),
+      (Failure failure) => emit(AuthError(message: failure.message)),
+      (AppUser user) => emit(AuthAuthenticated(user: user)),
     );
   }
 

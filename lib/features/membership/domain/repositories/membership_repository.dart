@@ -9,18 +9,28 @@ abstract class MembershipRepository {
     required String applicantName,
     required String email,
     required String phone,
-    required String district,
+    required String subregion,
     required String profession,
     required DateTime dateOfEntry,
     required List<FamilyMember> familyMembers,
   });
 
-  Future<Either<Failure, List<MembershipApplication>>> getApplications();
+  Future<Either<Failure, List<MembershipApplication>>> getPendingApplications();
 
-  Future<Either<Failure, void>> approveMembership({
-    required String applicationId,
-    required bool approved,
-  });
+  Future<Either<Failure, void>> approveMembership(
+      String applicationId, String reviewerId);
 
-  Future<Either<Failure, MembershipApplication?>> getApplicationById(String id);
+  Future<Either<Failure, void>> rejectMembership(
+      String applicationId, String reviewerId);
+
+  // &&&&&&&&&&&&&&&& Commented out on 17th Dec 2025 while rectifying 7 subregions &&&&&&&&&&&&&&
+
+  // Future<Either<Failure, List<MembershipApplication>>> getApplications();
+
+  // Future<Either<Failure, void>> approveMembership({
+  //   required String applicationId,
+  //   required bool approved,
+  // });
+
+  // Future<Either<Failure, MembershipApplication?>> getApplicationById(String id);
 }

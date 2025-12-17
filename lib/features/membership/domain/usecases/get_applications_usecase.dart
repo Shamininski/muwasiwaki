@@ -13,6 +13,6 @@ class GetApplicationsUseCase
 
   @override
   Future<Either<Failure, List<MembershipApplication>>> call() async {
-    return await repository.getApplications();
+    return await repository.getPendingApplications();
   }
 }

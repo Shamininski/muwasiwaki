@@ -23,17 +23,17 @@ void main() async {
   await di.init();
 
   // Run seed data only in debug and handle Firestore not-enabled errors gracefully
-  if (kDebugMode) {
-    try {
-      // comment out or remove the call after first successful run
-      // await InitialSetup.createAllSeedUsers();
-      // 🔧 Uncomment this line to fix missing Firestore documents:
-      await InitialSetup.fixMissingFirestoreUsers();
-    } catch (e, st) {
-      // don't crash app if Firestore isn't available or seed fails
-      debugPrint('Initial seed skipped: $e\n$st');
-    }
-  }
+  // if (kDebugMode) {
+  //   try {
+  //     // comment out or remove the call after first successful run
+  //     // await InitialSetup.createAllSeedUsers();
+  //     // 🔧 Uncomment this line to fix missing Firestore documents:
+  //     await InitialSetup.fixMissingFirestoreUsers();
+  //   } catch (e, st) {
+  //     // don't crash app if Firestore isn't available or seed fails
+  //     debugPrint('Initial seed skipped: $e\n$st');
+  //   }
+  // }
 
   runApp(const MuwasiwakiApp());
 }

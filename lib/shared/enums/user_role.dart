@@ -8,7 +8,7 @@ enum UserRole {
   secretary,
   viceSecretary,
   accountant,
-  districtRepresentative,
+  subregionRepresentative,
   admin,
 }
 
@@ -27,8 +27,8 @@ extension UserRoleExtension on UserRole {
         return 'Vice Secretary';
       case UserRole.accountant:
         return 'Accountant';
-      case UserRole.districtRepresentative:
-        return 'District Representative';
+      case UserRole.subregionRepresentative:
+        return 'Subregion Representative';
       case UserRole.admin:
         return 'Admin';
     }
@@ -48,8 +48,8 @@ extension UserRoleExtension on UserRole {
         return 'Assistant secretary with limited secretarial duties';
       case UserRole.accountant:
         return 'Financial officer responsible for accounting and membership approval';
-      case UserRole.districtRepresentative:
-        return 'Representative for a specific district or region';
+      case UserRole.subregionRepresentative:
+        return 'Representative for a specific subregion or region';
       case UserRole.admin:
         return 'System administrator with technical and full access privileges';
     }
@@ -59,7 +59,7 @@ extension UserRoleExtension on UserRole {
     switch (this) {
       case UserRole.member:
         return 1;
-      case UserRole.districtRepresentative:
+      case UserRole.subregionRepresentative:
         return 2;
       case UserRole.viceSecretary:
         return 3;
@@ -81,7 +81,7 @@ extension UserRoleExtension on UserRole {
   }
 
   bool get canCreateNews {
-    return level >= 2; // District Representative level and above
+    return level >= 2; // Subregion Representative level and above
   }
 
   bool get canEditNews {
@@ -105,7 +105,7 @@ extension UserRoleExtension on UserRole {
   }
 
   bool get canViewAllMembers {
-    return level >= 2; // District Representative level and above
+    return level >= 2; // Subregion Representative level and above
   }
 
   bool get canManageEvents {
@@ -128,13 +128,13 @@ extension UserRoleExtension on UserRole {
           'update_own_profile',
           'view_public_content',
         ];
-      case UserRole.districtRepresentative:
+      case UserRole.subregionRepresentative:
         return [
           'read_news',
           'create_news',
           'update_own_profile',
           'view_members',
-          'manage_district_activities',
+          'manage_subregion_activities',
         ];
       case UserRole.viceSecretary:
         return [
@@ -190,7 +190,7 @@ extension UserRoleExtension on UserRole {
           'manage_events',
           'assign_roles',
           'view_reports',
-          'manage_district_representatives',
+          'manage_subregion_representatives',
         ];
       case UserRole.chairman:
         return [
@@ -259,7 +259,7 @@ extension UserRoleExtension on UserRole {
     switch (this) {
       case UserRole.member:
         return const Color(0xFF9E9E9E); // Grey
-      case UserRole.districtRepresentative:
+      case UserRole.subregionRepresentative:
         return const Color(0xFF4CAF50); // Green
       case UserRole.viceSecretary:
         return const Color(0xFF2196F3); // Blue
@@ -281,7 +281,7 @@ extension UserRoleExtension on UserRole {
     switch (this) {
       case UserRole.member:
         return Icons.person;
-      case UserRole.districtRepresentative:
+      case UserRole.subregionRepresentative:
         return Icons.location_on;
       case UserRole.viceSecretary:
         return Icons.edit_note;

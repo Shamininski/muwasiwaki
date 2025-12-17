@@ -115,7 +115,7 @@ class _NewsCard extends StatelessWidget {
                   ),
                   const Text(' • ', style: TextStyle(color: Colors.grey)),
                   Text(
-                    DateFormat('MMM dd, yyyy').format(article.createdAt),
+                    DateFormat('dd MM, yyyy').format(article.createdAt),
                     style: const TextStyle(fontSize: 12, color: Colors.grey),
                   ),
                   const Text(' • ', style: TextStyle(color: Colors.grey)),
