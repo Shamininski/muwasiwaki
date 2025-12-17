@@ -22,44 +22,46 @@ class NewsFeedPage extends StatelessWidget {
           IconButton(onPressed: () {}, icon: const Icon(Icons.notifications)),
         ],
       ),
-      body: BlocBuilder<NewsBloc, NewsState>(
-        builder: (BuildContext context, Object? state) {
-          if (state is NewsLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is NewsLoaded) {
-            return RefreshIndicator(
-              onRefresh: () async {
-                context.read<NewsBloc>().add(LoadNewsEvent());
-              },
-              child: ListView.builder(
-                padding: const EdgeInsets.all(16),
-                itemCount: state.articles.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final article = state.articles[index];
-                  return _NewsCard(article: article);
+      body: SafeArea(
+        child: BlocBuilder<NewsBloc, NewsState>(
+          builder: (BuildContext context, Object? state) {
+            if (state is NewsLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is NewsLoaded) {
+              return RefreshIndicator(
+                onRefresh: () async {
+                  context.read<NewsBloc>().add(LoadNewsEvent());
                 },
-              ),
-            );
-          } else if (state is NewsError) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const Icon(Icons.error, size: 64, color: Colors.grey),
-                  const SizedBox(height: 16),
-                  Text(state.message),
-                  const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () =>
-                        context.read<NewsBloc>().add(LoadNewsEvent()),
-                    child: const Text('Retry'),
-                  ),
-                ],
-              ),
-            );
-          }
-          return const SizedBox();
-        },
+                child: ListView.builder(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: state.articles.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final article = state.articles[index];
+                    return _NewsCard(article: article);
+                  },
+                ),
+              );
+            } else if (state is NewsError) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    const Icon(Icons.error, size: 64, color: Colors.grey),
+                    const SizedBox(height: 16),
+                    Text(state.message),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () =>
+                          context.read<NewsBloc>().add(LoadNewsEvent()),
+                      child: const Text('Retry'),
+                    ),
+                  ],
+                ),
+              );
+            }
+            return const SizedBox();
+          },
+        ),
       ),
       floatingActionButton: BlocBuilder<AuthBloc, AuthState>(
         builder: (BuildContext context, AuthState state) {
@@ -115,25 +117,28 @@ class _NewsCard extends StatelessWidget {
                   ),
                   const Text(' • ', style: TextStyle(color: Colors.grey)),
                   Text(
-                    DateFormat('dd MM, yyyy').format(article.createdAt),
+                    DateFormat('MMM dd, yyyy').format(article.createdAt),
                     style: const TextStyle(fontSize: 12, color: Colors.grey),
                   ),
                   const Text(' • ', style: TextStyle(color: Colors.grey)),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 2,
-                    ),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF667EEA).withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      article.category,
-                      style: const TextStyle(
-                        fontSize: 10,
-                        color: Color(0xFF667EEA),
-                        fontWeight: FontWeight.w500,
+                  Flexible(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF667EEA).withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        article.category,
+                        style: const TextStyle(
+                          fontSize: 10,
+                          color: Color(0xFF667EEA),
+                          fontWeight: FontWeight.w500,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ),

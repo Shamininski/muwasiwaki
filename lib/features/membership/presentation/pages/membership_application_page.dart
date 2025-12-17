@@ -29,75 +29,76 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Membership Application'),
-        backgroundColor: const Color(0xFF667EEA),
-      ),
-      body: BlocListener<MembershipBloc, MembershipState>(
-        listener: (BuildContext context, Object? state) {
-          if (state is MembershipApplicationSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Application submitted successfully!'),
-              ),
-            );
-            Navigator.pop(context);
-          } else if (state is MembershipError) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.message)));
-          }
-        },
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                _buildPersonalInfoSection(),
-                const SizedBox(height: 24),
-                _buildDateOfEntrySection(),
-                const SizedBox(height: 24),
-                _buildFamilyMembersSection(),
-                const SizedBox(height: 32),
-                BlocBuilder<MembershipBloc, MembershipState>(
-                  builder: (BuildContext context, Object? state) {
-                    return SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: state is MembershipLoading
-                            ? null
-                            : _submitApplication,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF667EEA),
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        child: state is MembershipLoading
-                            ? const CircularProgressIndicator(
-                                color: Colors.white,
-                              )
-                            : const Text(
-                                'SUBMIT APPLICATION',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
-                                ),
+        appBar: AppBar(
+          title: const Text('Membership Application'),
+          backgroundColor: const Color(0xFF667EEA),
+        ),
+        body: SafeArea(
+          child: BlocListener<MembershipBloc, MembershipState>(
+            listener: (BuildContext context, Object? state) {
+              if (state is MembershipApplicationSuccess) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Application submitted successfully!'),
+                  ),
+                );
+                Navigator.pop(context);
+              } else if (state is MembershipError) {
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(state.message)));
+              }
+            },
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    _buildPersonalInfoSection(),
+                    const SizedBox(height: 24),
+                    _buildDateOfEntrySection(),
+                    const SizedBox(height: 24),
+                    _buildFamilyMembersSection(),
+                    const SizedBox(height: 32),
+                    BlocBuilder<MembershipBloc, MembershipState>(
+                      builder: (BuildContext context, Object? state) {
+                        return SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: state is MembershipLoading
+                                ? null
+                                : _submitApplication,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF667EEA),
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
                               ),
-                      ),
-                    );
-                  },
+                            ),
+                            child: state is MembershipLoading
+                                ? const CircularProgressIndicator(
+                                    color: Colors.white,
+                                  )
+                                : const Text(
+                                    'SUBMIT APPLICATION',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 
   Widget _buildPersonalInfoSection() {
