@@ -13,7 +13,7 @@ enum UserRole {
 }
 
 extension UserRoleExtension on UserRole {
-  String get name {
+  String get label {
     switch (this) {
       case UserRole.member:
         return 'Member';
@@ -327,5 +327,5 @@ extension UserRoleExtension on UserRole {
 
   // the overide annotation below was commented out cause it was bringing an error
   @override
-  String toStrisng() => name;
+  String toStrisng() => label;
 }

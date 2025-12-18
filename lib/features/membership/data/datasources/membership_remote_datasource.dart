@@ -66,7 +66,7 @@ class MembershipRemoteDataSourceImpl implements MembershipRemoteDataSource {
       final snapshot = await firestore
           .collection('membership_applications')
           .where('status', isEqualTo: 'pending')
-          .orderBy('createdAt', descending: true)
+          // .orderBy('createdAt', descending: true) //17Dec2025 to fix index error on members page
           .get();
 
       return snapshot.docs
