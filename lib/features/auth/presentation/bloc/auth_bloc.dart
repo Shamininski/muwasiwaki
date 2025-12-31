@@ -1,5 +1,6 @@
 // lib/features/auth/presentation/bloc/auth_bloc.dart
 import 'package:dartz/dartz.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:muwasiwaki/core/error/failures.dart';
@@ -87,13 +88,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   void _onCheckAuth(CheckAuthEvent event, Emitter<AuthState> emit) async {
     try {
-      final Either<Failure, AppUser> result =
-          await loginUseCase.getCurrentUser();
+      final Either<Failure, AppUser> result = await loginUseCase
+          .getCurrentUser()
+          .timeout(const Duration(seconds: 5));
       result.fold(
         (Failure failure) => emit(AuthUnauthenticated()),
         (AppUser user) => emit(AuthAuthenticated(user: user)),
       );
     } catch (e) {
+      debugPrint('Check auth timeout: $e');
       emit(AuthUnauthenticated());
     }
   }

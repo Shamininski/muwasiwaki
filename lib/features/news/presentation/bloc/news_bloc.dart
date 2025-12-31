@@ -78,11 +78,16 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
 
   void _onLoadNews(LoadNewsEvent event, Emitter<NewsState> emit) async {
     emit(NewsLoading());
-    final result = await getNewsUseCase();
-    result.fold(
-      (failure) => emit(NewsError(message: failure.message)),
-      (articles) => emit(NewsLoaded(articles: articles)),
-    );
+    try {
+      final result = await getNewsUseCase();
+      result.fold(
+        (failure) => emit(NewsError(message: failure.message)),
+        (articles) => emit(NewsLoaded(articles: articles)),
+      );
+    } catch (e) {
+      emit(NewsError(
+          message: 'Connection timeout. Please check your internet.'));
+    }
   }
 
   void _onCreateNews(CreateNewsEvent event, Emitter<NewsState> emit) async {

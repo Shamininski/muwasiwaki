@@ -23,6 +23,11 @@ class AppRouter {
           state.matchedLocation == '/register' ||
           state.matchedLocation == '/apply-membership';
 
+      // Don't redirect if still checking auth
+      if (authState is AuthInitial || authState is AuthLoading) {
+        return null; // Allow navigation to proceed
+      }
+
       if (!isLoggedIn && !isLoggingIn) return '/login';
       if (isLoggedIn && isLoggingIn) return '/home';
       return null;
