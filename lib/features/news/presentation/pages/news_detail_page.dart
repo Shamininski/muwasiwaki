@@ -20,7 +20,7 @@ class NewsDetailPage extends StatelessWidget {
         backgroundColor: const Color(0xFF667EEA),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.go('/home'),
+          onPressed: () => context.go('/news'),
         ),
       ),
       body: FutureBuilder<DocumentSnapshot>(

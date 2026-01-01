@@ -1,5 +1,6 @@
 // added on 8th Nov 2025
 // lib/main.dart
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter/foundation.dart';
@@ -48,4 +49,14 @@ void main() async {
   // }
 
   runApp(const MuwasiwakiApp());
+}
+
+Future<void> _checkDatabase() async {
+  final apps = await FirebaseFirestore.instance
+      .collection('membership_applications')
+      .get();
+  debugPrint('📊 Total applications: ${apps.docs.length}');
+  for (var doc in apps.docs) {
+    debugPrint('  - ${doc.data()['applicantName']}');
+  }
 }

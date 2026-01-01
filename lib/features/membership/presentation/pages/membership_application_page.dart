@@ -1,6 +1,7 @@
 // lib/features/membership/presentation/pages/membership_application_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../bloc/membership_bloc.dart';
 import '../../domain/entities/family_member.dart';
@@ -33,6 +34,10 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
         appBar: AppBar(
           title: const Text('Membership Application'),
           backgroundColor: const Color(0xFF667EEA),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => context.go('/home'),
+          ),
         ),
         body: SafeArea(
           child: BlocListener<MembershipBloc, MembershipState>(

@@ -4,12 +4,13 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../features/auth/presentation/bloc/auth_bloc.dart';
 import '../features/auth/presentation/pages/register_page.dart';
+import '../features/dashboard/presentation/pages/dashboard_page.dart';
 import '../features/news/presentation/pages/news_feed_page.dart';
 import '../features/news/presentation/pages/news_detail_page.dart';
 import '../features/news/presentation/pages/create_news_page.dart';
 import '../features/membership/presentation/pages/membership_application_page.dart';
 import '../features/membership/presentation/pages/pending_applications_page.dart';
-import '../features/profile/presentation/pages/profile_page.dart';
+import '../features/profile/presentation/pages/simple_profile_page.dart';
 import '../shared/widgets/main_navigation.dart';
 import '../features/auth/presentation/pages/login_page.dart';
 
@@ -55,11 +56,16 @@ class AppRouter {
           GoRoute(
             path: '/home',
             builder: (BuildContext context, GoRouterState state) =>
-                const NewsFeedPage(),
+                const DashboardPage(),
           ),
           GoRoute(
             path:
-                '/news/:id', // Added this route on 17Dec2025 to fix No news detail page
+                '/news', // Added this route on 01Jan2026 while fixing Dashboard as home page
+            builder: (context, state) => const NewsFeedPage(),
+          ),
+          GoRoute(
+            path:
+                '/news/:id', // Added this route on 17Dec2025 to fix No news detaill page
             builder: (context, state) {
               final id = state.pathParameters['id']!;
               return NewsDetailPage(newsId: id); // created this page afterwards
@@ -78,7 +84,7 @@ class AppRouter {
           GoRoute(
             path: '/profile',
             builder: (BuildContext context, GoRouterState state) =>
-                const ProfilePage(),
+                const SimpleProfilePage(),
           ),
         ],
       ),

@@ -40,7 +40,7 @@ class MembershipApplicationModel extends MembershipApplication {
       phone: data['phone'] ?? '',
       subregion: data['subregion'] ?? '',
       profession: data['profession'] ?? '',
-      nidaNumber: data['nidaNumber'] ?? '',
+      nidaNumber: data['nidaNumber'],
       dateOfEntry:
           (data['dateOfEntry'] as Timestamp?)?.toDate() ?? DateTime.now(),
       familyMembers: familyMembers,
