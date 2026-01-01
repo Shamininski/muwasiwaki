@@ -12,6 +12,7 @@ class MembershipApplication extends Equatable {
     required this.phone,
     required this.subregion,
     required this.profession,
+    this.nidaNumber,
     required this.dateOfEntry,
     required this.familyMembers,
     required this.status,
@@ -25,6 +26,7 @@ class MembershipApplication extends Equatable {
   final String phone;
   final String subregion;
   final String profession;
+  final String? nidaNumber; // Add NIDA tracking
   final DateTime dateOfEntry;
   final List<FamilyMember> familyMembers;
   final ApplicationStatus status;
@@ -40,6 +42,7 @@ class MembershipApplication extends Equatable {
         phone,
         subregion,
         profession,
+        nidaNumber,
         dateOfEntry,
         familyMembers,
         status,

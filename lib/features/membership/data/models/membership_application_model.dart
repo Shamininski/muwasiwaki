@@ -12,6 +12,7 @@ class MembershipApplicationModel extends MembershipApplication {
     required super.phone,
     required super.subregion,
     required super.profession,
+    super.nidaNumber,
     required super.dateOfEntry,
     required super.familyMembers,
     required super.status,
@@ -39,6 +40,7 @@ class MembershipApplicationModel extends MembershipApplication {
       phone: data['phone'] ?? '',
       subregion: data['subregion'] ?? '',
       profession: data['profession'] ?? '',
+      nidaNumber: data['nidaNumber'] ?? '',
       dateOfEntry:
           (data['dateOfEntry'] as Timestamp?)?.toDate() ?? DateTime.now(),
       familyMembers: familyMembers,
@@ -63,6 +65,7 @@ class MembershipApplicationModel extends MembershipApplication {
       phone: phone,
       subregion: subregion,
       profession: profession,
+      nidaNumber: nidaNumber,
       dateOfEntry: dateOfEntry,
       familyMembers: familyMembers,
       status: status,
@@ -81,6 +84,7 @@ class MembershipApplicationModel extends MembershipApplication {
       'phone': phone,
       'subregion': subregion,
       'profession': profession,
+      'nidaNumber': nidaNumber,
       'dateOfEntry': dateOfEntry.toIso8601String(),
       'familyMembers': familyMembers
           .map((m) => {
@@ -119,6 +123,7 @@ class MembershipApplicationModel extends MembershipApplication {
       phone: map['phone'] ?? '',
       subregion: map['subregion'] ?? '',
       profession: map['profession'] ?? '',
+      nidaNumber: map['nidaNumber'] ?? '',
       dateOfEntry:
           DateTime.tryParse(map['dateOfEntry'] ?? '') ?? DateTime.now(),
       familyMembers: familyMembersList,
@@ -139,6 +144,7 @@ class MembershipApplicationModel extends MembershipApplication {
       'phone': phone,
       'subregion': subregion,
       'profession': profession,
+      'nidaNumber': nidaNumber,
       'dateOfEntry': Timestamp.fromDate(dateOfEntry),
       'familyMembers': familyMembers
           .map((m) => {

@@ -20,6 +20,7 @@ class SubmitApplicationEvent extends MembershipEvent {
   final String phone;
   final String subregion;
   final String profession;
+  final String? nidaNumber;
   final DateTime dateOfEntry;
   final List<FamilyMember> familyMembers;
 
@@ -29,6 +30,7 @@ class SubmitApplicationEvent extends MembershipEvent {
     required this.phone,
     required this.subregion,
     required this.profession,
+    this.nidaNumber,
     required this.dateOfEntry,
     required this.familyMembers,
   });
@@ -40,6 +42,7 @@ class SubmitApplicationEvent extends MembershipEvent {
         phone,
         subregion,
         profession,
+        nidaNumber,
         dateOfEntry,
         familyMembers,
       ];
@@ -149,6 +152,7 @@ class MembershipBloc extends Bloc<MembershipEvent, MembershipState> {
       phone: event.phone,
       subregion: event.subregion,
       profession: event.profession,
+      nidaNumber: event.nidaNumber,
       dateOfEntry: event.dateOfEntry,
       familyMembers: event.familyMembers,
     ));

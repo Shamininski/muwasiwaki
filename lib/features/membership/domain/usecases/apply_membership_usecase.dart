@@ -18,6 +18,7 @@ class ApplyMembershipUseCase implements UseCase<void, ApplyMembershipParams> {
       phone: params.phone,
       subregion: params.subregion,
       profession: params.profession,
+      nidaNumber: params.nidaNumber,
       dateOfEntry: params.dateOfEntry,
       familyMembers: params.familyMembers,
     );
@@ -30,6 +31,7 @@ class ApplyMembershipParams {
   final String phone;
   final String subregion;
   final String profession;
+  final String? nidaNumber;
   final DateTime dateOfEntry;
   final List<FamilyMember> familyMembers;
 
@@ -39,6 +41,7 @@ class ApplyMembershipParams {
     required this.phone,
     required this.subregion,
     required this.profession,
+    this.nidaNumber,
     required this.dateOfEntry,
     required this.familyMembers,
   });

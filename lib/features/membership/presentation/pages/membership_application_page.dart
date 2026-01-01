@@ -21,6 +21,7 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _professionController = TextEditingController();
+  final _nidaController = TextEditingController();
 
   String? _selectedSubregion;
   DateTime _dateOfEntry = DateTime.now();
@@ -128,11 +129,22 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
             TextFormField(
               controller: _emailController,
               decoration: const InputDecoration(
-                labelText: 'Email Address *',
+                labelText: 'Email Address(Optional)',
                 border: OutlineInputBorder(),
               ),
-              validator: (String? value) =>
-                  value?.isEmpty == true ? 'Email is required' : null,
+              validator: (value) {
+                // Only validate format if email is provided
+                if (value != null && value.isNotEmpty) {
+                  if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                      .hasMatch(value)) {
+                    return 'Enter a valid email';
+                  }
+                }
+                return null; // Email is optional
+              },
+
+              // validator: (String? value) =>
+              //     value?.isEmpty == true ? 'Email is required' : null,
             ),
             const SizedBox(height: 16),
             TextFormField(
@@ -175,6 +187,18 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
                 labelText: 'Profession',
                 border: OutlineInputBorder(),
               ),
+            ),
+            const SizedBox(height: 16),
+            TextFormField(
+              controller:
+                  _nidaController, // Add: final _nidaController = TextEditingController();
+              decoration: const InputDecoration(
+                labelText: 'NIDA Number (Optional)',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.credit_card),
+                helperText: 'Used to prevent duplicate applications',
+              ),
+              maxLength: 20,
             ),
             const SizedBox(height: 16),
           ],
@@ -326,6 +350,8 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
               phone: _phoneController.text,
               subregion: _selectedSubregion!,
               profession: _professionController.text,
+              nidaNumber:
+                  _nidaController.text.isEmpty ? null : _nidaController.text,
               dateOfEntry: _dateOfEntry,
               familyMembers: _familyMembers,
             ),

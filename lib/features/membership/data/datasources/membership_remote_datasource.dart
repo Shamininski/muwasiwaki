@@ -10,6 +10,7 @@ abstract class MembershipRemoteDataSource {
     required String phone,
     required String subregion,
     required String profession,
+    String? nidaNumber,
     required DateTime dateOfEntry,
     required List<FamilyMember> familyMembers,
   });
@@ -31,16 +32,51 @@ class MembershipRemoteDataSourceImpl implements MembershipRemoteDataSource {
     required String phone,
     required String subregion,
     required String profession,
+    String? nidaNumber,
     required DateTime dateOfEntry,
     required List<FamilyMember> familyMembers,
   }) async {
     try {
+      // Check NIDA if provided
+      if (nidaNumber != null && nidaNumber.isNotEmpty) {
+        final existingByNida = await firestore
+            .collection('membership_applications')
+            .where('nidaNumber', isEqualTo: nidaNumber)
+            .get();
+
+        if (existingByNida.docs.isNotEmpty) {
+          throw Exception('This NIDA number is already registered');
+        }
+      }
+      // Check for duplicate by phone
+      final existingByPhone = await firestore
+          .collection('membership_applications')
+          .where('phone', isEqualTo: phone)
+          .get();
+
+      if (existingByPhone.docs.isNotEmpty) {
+        throw Exception('An application with this phone number already exists');
+      }
+
+      // Check by email if provided
+      if (email.isNotEmpty) {
+        final existingByEmail = await firestore
+            .collection('membership_applications')
+            .where('email', isEqualTo: email)
+            .get();
+
+        if (existingByEmail.docs.isNotEmpty) {
+          throw Exception('An application with this email already exists');
+        }
+      }
+
       final docRef = await firestore.collection('membership_applications').add({
         'applicantName': applicantName,
         'email': email,
         'phone': phone,
         'subregion': subregion,
         'profession': profession,
+        'nidaNumber': nidaNumber,
         'dateOfEntry': Timestamp.fromDate(dateOfEntry),
         'familyMembers': familyMembers
             .map((member) => {

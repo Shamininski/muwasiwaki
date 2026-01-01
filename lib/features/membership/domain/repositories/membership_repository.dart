@@ -11,6 +11,7 @@ abstract class MembershipRepository {
     required String phone,
     required String subregion,
     required String profession,
+    String? nidaNumber,
     required DateTime dateOfEntry,
     required List<FamilyMember> familyMembers,
   });
