@@ -11,7 +11,9 @@
     <application
         android:label="MUWASIWAKI"
         android:icon="@mipmap/ic_launcher"    
-        android:enableOnBackInvokedCallback="true">
+        android:enableOnBackInvokedCallback="true"
+        android:name="androidx.multidex.MultiDexApplication">
+
 
         <activity
             android:name=".MainActivity"

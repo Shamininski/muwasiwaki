@@ -141,3 +141,6 @@ GeneratedPluginRegistrant.java
 key.properties
 **/*.keystore
 **/*.jks
+
+# local firebase CLI cache / emulator state
+.firebase/

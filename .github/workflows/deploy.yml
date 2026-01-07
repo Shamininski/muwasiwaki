@@ -1,0 +1,88 @@
+# name: CI
+
+# on:
+#   pull_request:
+#   push:
+#     branches: [ main, staging ]
+
+# jobs:
+#   analyze-and-build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
+
+#       - name: Set up Flutter
+#         uses: subosito/flutter-action@v2
+#         with:
+#           flutter-version: 'stable'
+
+#       - name: Install dependencies
+#         run: flutter pub get
+
+#       - name: Static analysis
+#         run: flutter analyze
+
+#       - name: Run unit tests
+#         run: flutter test --no-pub
+
+#       - name: Build Android debug APK
+#         env:
+#           JAVA_TOOL_OPTIONS: -Xmx1g
+#         run: flutter build apk --debug --no-shrink
+
+
+# ============== Firebase Hosting for Flutter Web but a static Privacy Policy page ==============
+#       - name: Deploy to Firebase Hosting
+#           run: firebase deploy --token ${{ secrets.FIREBASE_TOKEN }}
+
+
+
+
+
+
+
+
+
+# name: Build & Release APK
+
+# on:
+#   push:
+#     tags:
+#       - 'v*.*.*'
+#   workflow_dispatch:
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
+
+#       - name: Setup Flutter
+#         uses: subosito/flutter-action@v2
+#         with:
+#           flutter-version: 'stable'
+
+#       - name: Cache Pub & Gradle
+#         uses: actions/cache@v4
+#         with:
+#           path: |
+#             ~/.pub-cache
+#             ~/.gradle/caches
+#           key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.yaml') }}
+
+#       - name: Install dependencies
+#         run: flutter pub get
+
+#       - name: Run tests
+#         run: flutter test --coverage
+
+#       - name: Build release APK
+#         run: flutter build apk --release
+
+#       - name: Create GitHub Release and upload APK
+#         uses: ncipollo/release-action@v1
+#         with:
+#           tag: ${{ github.ref_name }}
+#           files: build/app/outputs/flutter-apk/app-release.apk
