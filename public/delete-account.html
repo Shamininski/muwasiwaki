@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Account - MUWASIWAKI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 36px;
+            font-weight: bold;
+        }
+        
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .section {
+            margin: 30px 0;
+        }
+        
+        h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+        
+        .steps {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .step {
+            margin: 15px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .step::before {
+            content: attr(data-step);
+            position: absolute;
+            left: 0;
+            width: 24px;
+            height: 24px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .data-list {
+            margin: 15px 0;
+        }
+        
+        .data-item {
+            padding: 10px;
+            margin: 8px 0;
+            background: #fff;
+            border-left: 3px solid #667eea;
+            border-radius: 4px;
+        }
+        
+        .data-item.kept {
+            border-left-color: #ffa500;
+        }
+        
+        .label {
+            font-weight: bold;
+            color: #667eea;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+        
+        .label.kept {
+            color: #ffa500;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        
+        .contact {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .email-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .email-link:hover {
+            text-decoration: underline;
+        }
+        
+        .timeline {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">M</div>
+            <h1>Delete Your MUWASIWAKI Account</h1>
+            <p class="subtitle">Request permanent deletion of your account and associated data</p>
+        </div>
+
+        <div class="section">
+            <h2>How to Request Account Deletion</h2>
+            <div class="steps">
+                <div class="step" data-step="1">
+                    <strong>Send an Email Request</strong>
+                    <p>Email us at <a href="mailto:thadev77@gmail.com" class="email-link">thadev77@gmail.com</a> with the subject line "Account Deletion Request"</p>
+                </div>
+                
+                <div class="step" data-step="2">
+                    <strong>Include Your Information</strong>
+                    <p>In your email, please provide:</p>
+                    <ul>
+                        <li>Full name registered in the app</li>
+                        <li>Email address used for your account</li>
+                        <li>Phone number (if provided during registration)</li>
+                        <li>Reason for deletion (optional)</li>
+                    </ul>
+                </div>
+                
+                <div class="step" data-step="3">
+                    <strong>Confirmation</strong>
+                    <p>We will send you a confirmation email within 48 hours to verify your identity</p>
+                </div>
+                
+                <div class="step" data-step="4">
+                    <strong>Deletion Process</strong>
+                    <p>Once verified, your account will be permanently deleted within 30 days</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="warning">
+            <strong>⚠️ Important:</strong> Account deletion is permanent and cannot be undone. You will lose access to all organization news, your membership status, and profile information.
+        </div>
+
+        <div class="section">
+            <h2>What Data Gets Deleted</h2>
+            <div class="data-list">
+                <div class="data-item">
+                    <span class="label">✓ Deleted Immediately:</span>
+                    <ul>
+                        <li>Account credentials (email and password)</li>
+                        <li>Personal information (name, phone number)</li>
+                        <li>Profile data and preferences</li>
+                        <li>Family member information</li>
+                        <li>NIDA number (if provided)</li>
+                        <li>Subregion/location data</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>What Data May Be Retained</h2>
+            <div class="data-list">
+                <div class="data-item kept">
+                    <span class="label kept">⏳ Retained for Legal/Operational Purposes:</span>
+                    <ul>
+                        <li><strong>Membership application records:</strong> Kept for 90 days for audit purposes, then anonymized</li>
+                        <li><strong>Transaction/payment history:</strong> Kept for 7 years as required by Tanzanian law</li>
+                        <li><strong>News articles you created:</strong> Retained but authorship anonymized to "Former Member"</li>
+                        <li><strong>Backup copies:</strong> Removed within 30 days from backup systems</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Deletion Timeline</h2>
+            <div class="timeline">
+                <p><strong>Day 0:</strong> Request received</p>
+                <p><strong>Day 1-2:</strong> Identity verification</p>
+                <p><strong>Day 3-30:</strong> Account deactivated and deletion in progress</p>
+                <p><strong>Day 30:</strong> Permanent deletion completed</p>
+                <p><strong>Day 31-90:</strong> Removal from backup systems</p>
+            </div>
+        </div>
+
+        <div class="contact">
+            <h2>Need Help?</h2>
+            <p>If you have questions about account deletion or data privacy, contact us:</p>
+            <p><a href="mailto:thadev77@gmail.com" class="email-link">thadev77@gmail.com</a></p>
+            <p style="margin-top: 10px; font-size: 14px;">We typically respond within 48 hours</p>
+        </div>
+
+        <footer>
+            <p><strong>MUWASIWAKI</strong> - Organization Management System</p>
+            <p>Last Updated: January 10, 2026</p>
+            <p><a href="privacy-policy.html" style="color: #667eea;">Privacy Policy</a> | <a href="mailto:support@muwasiwaki.org" style="color: #667eea;">Contact Support</a></p>
+        </footer>
+    </div>
+</body>
+</html>

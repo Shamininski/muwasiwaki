@@ -114,17 +114,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   void _onRegister(RegisterEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
-    final result = await registerUseCase(
-      RegisterParams(
+    try {
+      final result = await registerUseCase(RegisterParams(
         email: event.email,
         password: event.password,
         name: event.name,
-      ),
-    );
-    result.fold(
-      (Failure failure) => emit(AuthError(message: failure.message)),
-      (AppUser user) => emit(AuthAuthenticated(user: user)),
-    );
+      ));
+
+      result.fold(
+        (failure) {
+          debugPrint('Registration failure: ${failure.message}');
+          emit(AuthError(message: failure.message));
+        },
+        (user) {
+          debugPrint('Registration success: ${user.email}');
+          emit(AuthAuthenticated(user: user));
+        },
+      );
+    } catch (e) {
+      debugPrint('Registration exception: $e');
+      emit(AuthError(message: 'Registration failed: $e'));
+    }
   }
 
   void _onLogout(LogoutEvent event, Emitter<AuthState> emit) async {

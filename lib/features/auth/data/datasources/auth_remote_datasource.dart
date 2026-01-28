@@ -42,28 +42,40 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<UserModel> register(String email, String password, String name) async {
     try {
-      final UserCredential credential =
-          await firebaseAuth.createUserWithEmailAndPassword(
+      // Sign out any existing user first
+      await firebaseAuth.signOut();
+
+      final userCredential = await firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      final UserModel userModel = UserModel(
-        id: credential.user!.uid,
-        email: email,
-        name: name,
-        role: UserRole.member,
-        createdAt: DateTime.now(),
-      );
+      // Create user document in Firestore
+      await firestore.collection('users').doc(userCredential.user!.uid).set({
+        'email': email,
+        'name': name,
+        'role': 'UserRole.member',
+        'createdAt': FieldValue.serverTimestamp(),
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
 
-      await firestore
+      // Wait a moment for Firestore to sync
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      // Fetch the created user document
+      final userDoc = await firestore
           .collection('users')
-          .doc(credential.user!.uid)
-          .set(userModel.toFirestore());
+          .doc(userCredential.user!.uid)
+          .get();
 
-      return userModel;
+      if (!userDoc.exists) {
+        throw Exception('Failed to create user profile');
+      }
+
+      return UserModel.fromFirestore(userDoc);
     } catch (e) {
-      throw Exception('Registration failed: ${e.toString()}');
+      debugPrint('Registration error: $e');
+      throw Exception('Registration failed: $e');
     }
   }
 

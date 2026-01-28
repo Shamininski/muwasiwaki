@@ -1,38 +1,38 @@
-# name: CI
+name: CI
 
-# on:
-#   pull_request:
-#   push:
-#     branches: [ main, staging ]
+on:
+  pull_request:
+  push:
+    branches: [ main, staging ]
 
-# jobs:
-#   analyze-and-build:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v4
+jobs:
+  analyze-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-#       - name: Set up Flutter
-#         uses: subosito/flutter-action@v2
-#         with:
-#           flutter-version: 'stable'
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
 
-#       - name: Install dependencies
-#         run: flutter pub get
+      - name: Install dependencies
+        run: flutter pub get
 
-#       - name: Static analysis
-#         run: flutter analyze
+      - name: Static analysis
+        run: flutter analyze
 
-#       - name: Run unit tests
-#         run: flutter test --no-pub
+      - name: Run unit tests
+        run: flutter test --no-pub
 
-#       - name: Build Android debug APK
-#         env:
-#           JAVA_TOOL_OPTIONS: -Xmx1g
-#         run: flutter build apk --debug --no-shrink
+      - name: Build Android debug APK
+        env:
+          JAVA_TOOL_OPTIONS: -Xmx1g
+        run: flutter build apk --debug --no-shrink
 
 
-# ============== Firebase Hosting for Flutter Web but a static Privacy Policy page ==============
+# # ============== Firebase Hosting for Flutter Web but a static Privacy Policy page ==============
 #       - name: Deploy to Firebase Hosting
 #           run: firebase deploy --token ${{ secrets.FIREBASE_TOKEN }}
 
