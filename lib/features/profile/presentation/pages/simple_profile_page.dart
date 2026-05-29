@@ -14,6 +14,16 @@ class SimpleProfilePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Profile'),
         backgroundColor: const Color(0xFF667EEA),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            if (context.canPop()) {
+              context.pop();
+            } else {
+              context.go('/home');
+            }
+          },
+        ),
         automaticallyImplyLeading: false,
       ),
       body: BlocBuilder<AuthBloc, AuthState>(

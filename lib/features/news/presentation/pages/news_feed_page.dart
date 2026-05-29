@@ -19,8 +19,14 @@ class NewsFeedPage extends StatelessWidget {
         title: const Text('MUWASIWAKI News'),
         backgroundColor: const Color(0xFF667EEA),
         leading: IconButton(
-          icon: const Icon(Icons.home),
-          onPressed: () => context.go('/home'),
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            if (context.canPop()) {
+              context.pop();
+            } else {
+              context.go('/home');
+            }
+          },
         ),
         actions: <Widget>[
           IconButton(onPressed: () {}, icon: const Icon(Icons.notifications)),

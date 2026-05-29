@@ -39,22 +39,32 @@ class _MembershipApplicationPageState extends State<MembershipApplicationPage> {
             onPressed: () => context.go('/home'),
           ),
         ),
-        body: SafeArea(
-          child: BlocListener<MembershipBloc, MembershipState>(
-            listener: (BuildContext context, Object? state) {
-              if (state is MembershipApplicationSuccess) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Application submitted successfully!'),
-                  ),
-                );
-                Navigator.pop(context);
-              } else if (state is MembershipError) {
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(SnackBar(content: Text(state.message)));
-              }
-            },
+        body: BlocListener<MembershipBloc, MembershipState>(
+          listener: (context, state) {
+            if (state is MembershipApplicationSuccess) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Application submitted successfully!'),
+                  backgroundColor: Colors.green,
+                ),
+              );
+
+              // Navigate to dashboard after short delay
+              Future.delayed(const Duration(seconds: 1), () {
+                if (context.mounted) {
+                  context.go('/home');
+                }
+              });
+            } else if (state is MembershipError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            }
+          },
+          child: SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(16),
               child: Form(

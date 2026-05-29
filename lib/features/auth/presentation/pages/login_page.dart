@@ -192,16 +192,6 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         const SizedBox(height: 16),
-                        TextButton(
-                          onPressed: () => context.go('/apply-membership'),
-                          child: const Text(
-                            "Apply for Membership",
-                            style: TextStyle(
-                              color: Colors.white,
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
-                        ),
                         const Spacer(),
                       ],
                     ),

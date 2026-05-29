@@ -20,7 +20,10 @@ class AppRouter {
     redirect: (BuildContext context, GoRouterState state) {
       final AuthState authState = context.read<AuthBloc>().state;
       final bool isLoggedIn = authState is AuthAuthenticated;
-      final bool isLoggingIn = state.matchedLocation == '/login' ||
+      // final bool isLoggingIn = state.matchedLocation == '/login' ||
+      //     state.matchedLocation == '/register' ||
+      //     state.matchedLocation == '/apply-membership';
+      final isOnAuthPage = state.matchedLocation == '/login' ||
           state.matchedLocation == '/register' ||
           state.matchedLocation == '/apply-membership';
 
@@ -29,8 +32,8 @@ class AppRouter {
         return null; // Allow navigation to proceed
       }
 
-      if (!isLoggedIn && !isLoggingIn) return '/login';
-      if (isLoggedIn && isLoggingIn) return '/home';
+      if (!isLoggedIn && !isOnAuthPage) return '/login';
+      if (isLoggedIn && isOnAuthPage) return '/home';
       return null;
     },
     routes: <RouteBase>[

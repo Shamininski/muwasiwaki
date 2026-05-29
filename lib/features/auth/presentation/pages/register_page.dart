@@ -39,15 +39,9 @@ class _RegisterPageState extends State<RegisterPage> {
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthAuthenticated) {
-            debugPrint('Registration successful, navigating to home');
-            // Use go instead of context.go to ensure clean navigation
-            Future.delayed(Duration.zero, () {
-              if (context.mounted) {
-                context.go('/home');
-              }
-            });
+            // Navigate to dashboard, not login
+            context.go('/home');
           } else if (state is AuthError) {
-            debugPrint('Registration error: ${state.message}');
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.message),

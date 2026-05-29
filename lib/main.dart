@@ -13,14 +13,15 @@ import 'core/setup/initial_setup.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  try {
-    await Firebase.initializeApp().timeout(const Duration(seconds: 5));
-  } catch (e) {
-    debugPrint('Firebase init error: $e');
-  }
+  // try {
+  //   await Firebase.initializeApp().timeout(const Duration(seconds: 5));
+  // } catch (e) {
+  //   debugPrint('Firebase init error: $e');
+  // }
+
   // ============== Commented out on 30 Dec 2025 ==========================
   // ============== Slow Loading & Internet Dependency =======================
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp();
 
   // // Activate App Check. Use debug provider while developing.
   // // For production use AndroidProvider.playIntegrity / IOSProvider.appAttest.
